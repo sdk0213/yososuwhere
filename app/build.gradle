@@ -14,7 +14,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.turtle.amatda"
+        applicationId "com.turtle.yososuwhere"
         minSdkVersion 23
         targetSdkVersion 31
         versionCode 1

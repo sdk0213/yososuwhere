@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">yososuwhere</string>
+
+    <!-- 공통 -->
+    <string name="common_button_checked">OK</string>
+    <string name="common_button_cancel">CANCEL</string>
+    <string name="common_delete">DELETE</string>
+    <string name="common_name">Name</string>
+    <string name="common_type">Type</string>
+    <string name="common_edit">Edit</string>
+    <string name="copyright_miricanvas">source: miricanvas</string>
+    <string name="common_message_required_internet_connection">Internet connection required</string>
+    <string name="toast_message_failed_this_service_is_not_open">Service is being prepared</string>
+
 </resources>

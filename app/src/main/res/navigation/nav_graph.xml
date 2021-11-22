@@ -32,4 +32,20 @@
 
     </fragment>
 
+
+    <dialog
+        android:id="@+id/view_dialog_fragment_show_text_view"
+        android:name="com.turtle.yososuwhere.presentation.view.dialog.TextViewDialogFragment"
+        tools:layout="@layout/fragment_dialog_text_view">
+
+        <argument
+            android:name="textViewData"
+            app:argType="com.turtle.yososuwhere.presentation.android.view_data.TextViewData" />
+
+    </dialog>
+
+    <action
+        android:id="@+id/action_global_show_text_view_dialog"
+        app:destination="@id/view_dialog_fragment_show_text_view" />
+
 </navigation>

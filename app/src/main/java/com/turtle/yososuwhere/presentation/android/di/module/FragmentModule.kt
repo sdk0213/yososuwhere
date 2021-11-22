@@ -4,3 +4,6 @@ import dagger.Module
 
 @Module
 class MainModule {}
+
+@Module
+class TextViewValueModule {}

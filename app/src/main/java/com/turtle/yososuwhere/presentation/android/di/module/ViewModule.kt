@@ -7,6 +7,7 @@ import com.turtle.yososuwhere.databinding.ActivityMainBinding
 import com.turtle.yososuwhere.presentation.android.di.qualifier.ActivityContext
 import com.turtle.yososuwhere.presentation.android.di.scope.ActivityScope
 import com.turtle.yososuwhere.presentation.android.di.scope.FragmentScope
+import com.turtle.yososuwhere.presentation.view.dialog.TextViewDialogFragment
 import com.turtle.yososuwhere.presentation.view.main.MainActivity
 import com.turtle.yososuwhere.presentation.view.home.HomeFragment
 import dagger.Module
@@ -35,5 +36,9 @@ abstract class ViewModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [MainModule::class])
     abstract fun getMainFragment(): HomeFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [TextViewValueModule::class])
+    abstract fun getTextViewDialogFragment(): TextViewDialogFragment
 
 }

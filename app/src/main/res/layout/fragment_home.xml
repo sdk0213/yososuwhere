@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,6 +16,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/tv_home_warning_data_source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="데이터 출처 : 공공데이터 포털(공공데이터활용지원센터)"
+            android:textStyle="bold|italic"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_home_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="새로고침"
+            android:textColor="@color/turtle_main"
+            android:layout_margin="10dp"
+            app:rippleColor="@color/turtle_main"
+            app:icon="@drawable/ic_baseline_refresh_24"
+            app:iconTint="@color/turtle_main"
+            app:iconGravity="textStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_home_warning_data_source"
+            style="?attr/materialButtonOutlinedStyle"/>
+
+        <TextView
+            android:id="@+id/tv_home_how_we_show_data"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            android:text="주유소의 정보는 현재 위치에서 거리가 가까우면서(단순 직선거리) 재고량이 많고, 영업 시간이 긴 순서대로 정렬됩니다."
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_home_refresh"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerview_home_yososulist"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_home_yososulist"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:spanCount="1"
+            app:layout_constraintTop_toBottomOf="@+id/tv_home_how_we_show_data"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/list_item_home_yososu"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

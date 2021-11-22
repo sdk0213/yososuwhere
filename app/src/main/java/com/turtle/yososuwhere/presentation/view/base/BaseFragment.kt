@@ -12,7 +12,10 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.turtle.yososuwhere.R
 import com.turtle.yososuwhere.presentation.android.di.factory.ViewModelFactory
+import com.turtle.yososuwhere.presentation.android.view_data.TextViewData
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 import java.lang.reflect.ParameterizedType
@@ -73,6 +76,19 @@ constructor(@LayoutRes private val layoutId: Int) : DaggerFragment() {
     abstract fun init()
 
     protected fun showToast(msg: String) = Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+
+    protected fun showPopUpMessage(msg: String) {
+        findNavController().navigate(
+            R.id.view_dialog_fragment_show_text_view,
+            androidx.core.os.bundleOf(
+                "textViewData" to
+                        TextViewData(
+                            returnKey = "NORMAL_TEXT_VIEW_POP_UP_MESSAGE",
+                            text = msg
+                        )
+            )
+        )
+    }
 
     override fun onDestroy() {
         super.onDestroy()
