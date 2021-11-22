@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.turtle.yososuwhere.presentation.view.main.MainViewModel" />
+            type="com.turtle.yososuwhere.presentation.view.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

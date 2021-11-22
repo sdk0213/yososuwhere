@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.turtle.yososuwhere.presentation.android.di.factory.ViewModelFactory
 import com.turtle.yososuwhere.presentation.android.di.key.ViewModelKey
-import com.turtle.yososuwhere.presentation.view.main.MainViewModel
+import com.turtle.yososuwhere.presentation.view.home.HomeViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -17,7 +17,7 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    abstract fun bindsMainViewModel(viewModel: MainViewModel): ViewModel
+    @ViewModelKey(HomeViewModel::class)
+    abstract fun bindsMainViewModel(viewModel: HomeViewModel): ViewModel
 
 }
