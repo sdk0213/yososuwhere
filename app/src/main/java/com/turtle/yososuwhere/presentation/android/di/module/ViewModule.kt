@@ -8,8 +8,8 @@ import com.turtle.yososuwhere.presentation.android.di.qualifier.ActivityContext
 import com.turtle.yososuwhere.presentation.android.di.scope.ActivityScope
 import com.turtle.yososuwhere.presentation.android.di.scope.FragmentScope
 import com.turtle.yososuwhere.presentation.view.dialog.TextViewDialogFragment
-import com.turtle.yososuwhere.presentation.view.main.MainActivity
 import com.turtle.yososuwhere.presentation.view.home.HomeFragment
+import com.turtle.yososuwhere.presentation.view.main.MainActivity
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector

@@ -1,6 +1,5 @@
 package com.turtle.yososuwhere.presentation.view.home
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -38,7 +37,7 @@ class HomeYososuStationAdapter constructor(
                 tvListItemHomeGasStationName.text = item.명칭
                 tvListItemHomeGasStationTel.text = item.전화번호
                 tvListItemHomeGasStationHoursOfOperation.text = item.영업시간
-                tvListItemHomeGasStationYososuStock.text = item.재고량.toString()
+                tvListItemHomeGasStationYososuStock.text = item.재고량
 
                 executePendingBindings()
             }

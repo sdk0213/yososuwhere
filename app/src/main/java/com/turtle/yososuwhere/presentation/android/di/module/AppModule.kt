@@ -3,11 +3,11 @@ package com.turtle.yososuwhere.presentation.android.di.module
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.turtle.yososuwhere.presentation.utilities.CatchUnexpectedException
-import com.turtle.yososuwhere.presentation.utilities.CustomTimberDebug
 import com.turtle.yososuwhere.presentation.android.AndroidUtil
 import com.turtle.yososuwhere.presentation.android.App
 import com.turtle.yososuwhere.presentation.android.di.qualifier.ApplicationContext
+import com.turtle.yososuwhere.presentation.utilities.CatchUnexpectedException
+import com.turtle.yososuwhere.presentation.utilities.CustomTimberDebug
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
