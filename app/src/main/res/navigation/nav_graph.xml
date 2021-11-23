@@ -30,6 +30,14 @@
         android:name="com.turtle.yososuwhere.presentation.view.home.HomeFragment"
         tools:layout="@layout/fragment_home">
 
+        <action
+            android:id="@+id/action_homeFragment_to_qnaFragment"
+            app:destination="@id/qnaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
 
@@ -43,6 +51,14 @@
             app:argType="com.turtle.yososuwhere.presentation.android.view_data.TextViewData" />
 
     </dialog>
+
+    <fragment
+        android:id="@+id/qnaFragment"
+        android:name="com.turtle.yososuwhere.presentation.view.qna.QNAFragment"
+        android:label="QNAFragment"
+        tools:layout="@layout/fragment_qna">
+
+    </fragment>
 
     <action
         android:id="@+id/action_global_show_text_view_dialog"

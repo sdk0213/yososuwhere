@@ -6,4 +6,7 @@ import dagger.Module
 class MainModule {}
 
 @Module
+class QNAModule {}
+
+@Module
 class TextViewValueModule {}

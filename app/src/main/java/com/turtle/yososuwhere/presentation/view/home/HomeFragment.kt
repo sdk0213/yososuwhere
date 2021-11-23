@@ -4,6 +4,9 @@ import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
+import android.content.Intent
+import androidx.navigation.fragment.findNavController
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.gun0912.tedpermission.TedPermissionResult
 import com.tedpark.tedpermission.rx2.TedRxPermission
 import com.turtle.yososuwhere.R
@@ -87,8 +90,42 @@ class HomeFragment :
     }
 
     private fun listener() {
-        binding.btnHomeRefresh.setOnClickListener {
-            requestPermission()
+
+        binding.topAppBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.item_refresh -> {
+                    requestPermission()
+                    true
+                }
+                R.id.item_search -> {
+                    showToast("기능 준비중입니다.")
+                    true
+                }
+                R.id.item_search_map -> {
+                    showToast("기능 준비중입니다.")
+                    true
+                }
+                R.id.item_qna -> {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToQnaFragment()
+                    )
+                    true
+
+                }
+                R.id.item_open_source_license -> {
+                    OssLicensesMenuActivity.setActivityTitle("오픈소스 라이선스")
+                    startActivity(
+                        Intent(
+                            mContext,
+                            OssLicensesMenuActivity::class.java
+                        )
+                    )
+                    true
+                }
+                else -> {
+                    true
+                }
+            }
         }
     }
 
@@ -99,6 +136,7 @@ class HomeFragment :
         })
 
         viewModel.yososuStationEntityList.observe(this@HomeFragment) { list ->
+            showToast("주유소 요소수 정보를 업데이트하였습니다")
             yososuStationAdapter.submitList(list)
             binding.recyclerviewHomeYososulist.smoothScrollToPosition(0)
         }
