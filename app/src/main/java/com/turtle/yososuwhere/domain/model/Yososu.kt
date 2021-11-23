@@ -10,5 +10,6 @@ data class YososuStation(
     val operationTime: String,
     val stock: Long,
     val tel: String,
-    val addr: String
+    val addr: String,
+    val kilometer : Double = 0.0
 )

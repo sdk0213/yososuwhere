@@ -1,12 +1,31 @@
 package com.turtle.yososuwhere.presentation.view.home
 
+import android.Manifest
+import com.gun0912.tedpermission.TedPermissionResult
+import com.tedpark.tedpermission.rx2.TedRxPermission
 import com.turtle.yososuwhere.R
 import com.turtle.yososuwhere.databinding.FragmentHomeBinding
 import com.turtle.yososuwhere.presentation.utilities.EventObserver
 import com.turtle.yososuwhere.presentation.view.base.BaseFragment
+import io.reactivex.Single
+import timber.log.Timber
 
 class HomeFragment :
     BaseFragment<HomeViewModel, FragmentHomeBinding>(R.layout.fragment_home) {
+
+    private val permissionRx: Single<TedPermissionResult> by lazy {
+        TedRxPermission.create().apply {
+            setDeniedTitle("위치 권한 필요")
+            setDeniedMessage(
+                "현재 위치를 기준으로 가장 가까운 주유소를 찾으려면 위치권한이 필요합니다.\n" +
+                        "[설정] > [권한] > [위치]를 [이번만 허용 또는 앱 사용중에만 허용]으로 변경해주세요."
+            )
+            setPermissions(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        }.request()
+    }
 
     private val yososuStationAdapter: HomeYososuStationAdapter by lazy {
         HomeYososuStationAdapter(mContext)
@@ -17,7 +36,24 @@ class HomeFragment :
         viewModel()
         listener()
         observer()
+        requestPermission()
+    }
 
+    private fun requestPermission() {
+        compositeDisposable.add(
+            permissionRx
+                .subscribe(
+                    { tedPermissionResult ->
+                        if (tedPermissionResult.isGranted) {
+                            Timber.d("권한이 허용됨")
+                            viewModel.getYososuStation()
+                        }
+                    },
+                    {
+                        showToast("ERROR")
+                    }
+                )
+        )
     }
 
     private fun view() {
@@ -38,7 +74,9 @@ class HomeFragment :
     }
 
     private fun listener() {
-
+        binding.btnHomeRefresh.setOnClickListener {
+            requestPermission()
+        }
     }
 
     private fun observer() {

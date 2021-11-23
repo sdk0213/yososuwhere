@@ -1,4 +1,4 @@
-package com.turtle.yososuwhere.data.repository
+package com.turtle.yososuwhere.data.repository.yososu
 
 import com.turtle.yososuwhere.data.api.YososuAPIService
 import com.turtle.yososuwhere.domain.model.YososuStation
