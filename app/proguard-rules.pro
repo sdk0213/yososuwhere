@@ -52,3 +52,6 @@
 -keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
 
 ##---------------End: proguard configuration for Gson  ----------
+
+-keepnames class * extends android.os.Parcelable
+-keepnames class * extends java.io.Serializable
