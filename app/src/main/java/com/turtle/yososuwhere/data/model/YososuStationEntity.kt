@@ -22,10 +22,6 @@ data class YososuStationJsonBody(
     val totalCount: Int
 )
 
-data class YososuStationJsonItems(
-    val data: List<YososuStationEntity>
-)
-
 data class YososuStationEntity(
     val 가격: String,
     val 경도: String,

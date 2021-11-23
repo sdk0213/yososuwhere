@@ -33,7 +33,7 @@ class YososuRepositoryImpl @Inject constructor(
                                 }
                             )
                         } ?: run {
-                            emitter.onError(Exception("noData"))
+                            emitter.onError(Exception("데이터를 불러오는중 에러가 발생하였습니다."))
                         }
                     } else {
                         emitter.onError(Exception(response.errorBody().toString()))
