@@ -16,13 +16,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:title="요소수 어디"
+            app:menu="@menu/app_bar_home"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+
         <ImageView
             android:id="@+id/image_view_home_gps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:src="@drawable/ic_baseline_gps_fixed_24"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topAppBar"
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
@@ -52,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginTop="8dp"
-            android:text="업데이트\n(+ 현재위치/재고량으로 기준 재정렬)"
+            android:text="업데이트\n(+ 현재위치에서 가까운 주유소로 정렬)"
             android:textColor="@color/turtle_main"
             app:icon="@drawable/ic_baseline_refresh_24"
             app:iconGravity="textStart"
