@@ -14,7 +14,8 @@ import com.turtle.yososuwhere.domain.model.YososuStation
 
 
 class HomeYososuStationAdapter constructor(
-    private val mContext: Context
+    private val mContext: Context,
+    private val clipboardSave: (YososuStation) -> (Unit)
 ) : ListAdapter<YososuStation, HomeYososuStationAdapter.HomeYososuStationViewHolder>(
     HomeYososuStationDiffCallback()
 ) {
@@ -58,6 +59,10 @@ class HomeYososuStationAdapter constructor(
                 tvListItemHomeGasStationHoursOfOperation.text = "영업시간 : ${item.operationTime}"
                 tvListItemHomeGasStationYososuStock.text =
                     if (hasYososu) "요소수 없음" else "요소수 재고 : ${item.stock}"
+
+                cardViewListHome.setOnClickListener {
+                    clipboardSave(item)
+                }
 
                 executePendingBindings()
             }

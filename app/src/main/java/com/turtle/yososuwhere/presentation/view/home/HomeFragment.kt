@@ -1,6 +1,9 @@
 package com.turtle.yososuwhere.presentation.view.home
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
 import com.gun0912.tedpermission.TedPermissionResult
 import com.tedpark.tedpermission.rx2.TedRxPermission
 import com.turtle.yososuwhere.R
@@ -9,6 +12,7 @@ import com.turtle.yososuwhere.presentation.utilities.EventObserver
 import com.turtle.yososuwhere.presentation.view.base.BaseFragment
 import io.reactivex.Single
 import timber.log.Timber
+
 
 class HomeFragment :
     BaseFragment<HomeViewModel, FragmentHomeBinding>(R.layout.fragment_home) {
@@ -28,7 +32,16 @@ class HomeFragment :
     }
 
     private val yososuStationAdapter: HomeYososuStationAdapter by lazy {
-        HomeYososuStationAdapter(mContext)
+        HomeYososuStationAdapter(
+            mContext = mContext,
+            clipboardSave = {
+                val clipboard: ClipboardManager =
+                    requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("", "${it.addr}")
+                clipboard.setPrimaryClip(clip)
+                showToast("주유소 주소를 복사하였습니다.")
+            }
+        )
     }
 
     override fun init() {
@@ -90,8 +103,8 @@ class HomeFragment :
             binding.recyclerviewHomeYososulist.smoothScrollToPosition(0)
         }
 
-        viewModel.cannotGetLocation.observe(this@HomeFragment, EventObserver{ noLocation ->
-            if(noLocation){
+        viewModel.cannotGetLocation.observe(this@HomeFragment, EventObserver { noLocation ->
+            if (noLocation) {
                 binding.tvHomeGps.text = "위치 정보를 가져올수 없습니다."
             }
         })
