@@ -45,13 +45,19 @@ class HomeYososuStationAdapter constructor(
                     }
                     startActivity(mContext, intent, null)
                 }
+                val hasYososu = item.stock == 0L
+                if (hasYososu) {
+                    tvListItemHomeGasStationYososuStock.setTextColor(0xFFD50000.toInt())
+                } else {
+                    tvListItemHomeGasStationYososuStock.setTextColor(0xFF000000.toInt())
+                }
                 tvListItemHomeGasStationNumber.text = "(${position + 1}/${itemCount})"
                 tvListItemHomeGasStationAddr.text = item.addr
                 tvListItemHomeGasStationName.text = item.name
                 tvListItemHomeGasStationTel.text = item.tel
                 tvListItemHomeGasStationHoursOfOperation.text = "영업시간 : ${item.operationTime}"
                 tvListItemHomeGasStationYososuStock.text =
-                    if (item.stock == 0L) "요소수 없음" else "요소수 재고 : ${item.stock}"
+                    if (hasYososu) "요소수 없음" else "요소수 재고 : ${item.stock}"
 
                 executePendingBindings()
             }
