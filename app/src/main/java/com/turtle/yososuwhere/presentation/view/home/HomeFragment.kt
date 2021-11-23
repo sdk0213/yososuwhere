@@ -9,7 +9,7 @@ class HomeFragment :
     BaseFragment<HomeViewModel, FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val yososuStationAdapter: HomeYososuStationAdapter by lazy {
-        HomeYososuStationAdapter()
+        HomeYososuStationAdapter(mContext)
     }
 
     override fun init() {

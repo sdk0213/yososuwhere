@@ -16,53 +16,64 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_home_warning_data_source"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/image_view_home_gps"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="데이터 출처 : 공공데이터 포털(공공데이터활용지원센터)"
-            android:textStyle="bold|italic"
-            android:gravity="center"
             android:layout_margin="15dp"
+            android:src="@drawable/ic_baseline_gps_fixed_24"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_home_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="위치 정보를 불러오는 중입니다."
+            android:layout_marginStart="12dp"
+            app:layout_constraintStart_toEndOf="@+id/image_view_home_gps"
+            app:layout_constraintTop_toTopOf="@+id/image_view_home_gps"
+            app:layout_constraintBottom_toBottomOf="@+id/image_view_home_gps"
+            tools:text="충북 영동군 추풍령면 계룡리"/>
+
+        <TextView
+            android:id="@+id/tv_home_warning_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="업데이트: 14시(12시 기준값), 20시(16시 기준값)"
+            android:layout_margin="12dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/image_view_home_gps" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_home_refresh"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="새로고침"
-            android:textColor="@color/turtle_main"
             android:layout_margin="10dp"
-            app:rippleColor="@color/turtle_main"
+            android:layout_marginTop="8dp"
+            android:text="업데이트\n(+ 현재위치/재고량으로 기준 재정렬)"
+            android:textColor="@color/turtle_main"
             app:icon="@drawable/ic_baseline_refresh_24"
-            app:iconTint="@color/turtle_main"
             app:iconGravity="textStart"
-            app:layout_constraintStart_toStartOf="parent"
+            app:iconTint="@color/turtle_main"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_warning_data_source"
-            style="?attr/materialButtonOutlinedStyle"/>
-
-        <TextView
-            android:id="@+id/tv_home_how_we_show_data"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_margin="15dp"
-            android:text="주유소의 정보는 현재 위치에서 거리가 가까우면서(단순 직선거리) 재고량이 많고, 영업 시간이 긴 순서대로 정렬됩니다."
+            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_home_refresh"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerview_home_yososulist"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_home_warning_update"
+            app:rippleColor="@color/turtle_main" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_home_yososulist"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:scrollbars="vertical"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@drawable/scroll_bar"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:spanCount="1"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_how_we_show_data"
+            app:layout_constraintTop_toBottomOf="@+id/btn_home_refresh"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

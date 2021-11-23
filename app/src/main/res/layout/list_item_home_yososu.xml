@@ -3,111 +3,137 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        app:strokeColor="@color/turtle_main"
-        app:strokeWidth="1dp"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="2dp">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/tv_list_item_home_gas_station_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/card_view_list_home"
+            tools:text="(1/111)"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view_list_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/turtle_main"
+            app:strokeWidth="1dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_list_item_home_gas_station_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:gravity="center"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="옥산(부산방향)" />
-
-            <View
-                android:id="@+id/tv_list_item_home_gas_station_divide1"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/turtle_main"
-                app:layout_constraintTop_toBottomOf="@+id/tv_list_item_home_gas_station_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_list_item_home_gas_station_addr"
-                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:gravity="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_list_item_home_gas_station_divide1"
-                tools:text="충북 청주시 흥덕구 옥산면 경부고속도로 309" />
+                android:background="@color/white">
 
-            <View
-                android:id="@+id/tv_list_item_home_gas_station_divide2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/turtle_main"
-                app:layout_constraintTop_toBottomOf="@+id/tv_list_item_home_gas_station_addr"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_list_item_home_gas_station_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="옥산(부산방향)" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/tv_list_item_home_gas_station_tel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:textColor="@color/black"
-                style="?attr/materialButtonOutlinedStyle"
-                app:iconGravity="textStart"
-                app:icon="@drawable/ic_baseline_call_24"
-                app:iconTint="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_list_item_home_gas_station_divide2"
-                app:layout_constraintBottom_toTopOf="@+id/tv_list_item_home_gas_station_hours_of_operation"
-                tools:text="041-858-0565"/>
+                <View
+                    android:id="@+id/tv_list_item_home_gas_station_divide1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/turtle_main"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_list_item_home_gas_station_name" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_list_item_home_gas_station_yososu_stock"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:layout_marginEnd="15dp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/tv_list_item_home_gas_station_divide2"
-                app:layout_constraintBottom_toTopOf="@+id/tv_list_item_home_gas_station_hours_of_operation"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="요소수 재고 : 2120" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_list_item_home_gas_station_addr"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_list_item_home_gas_station_divide1"
+                    tools:text="충북 청주시 흥덕구 옥산면 경부고속도로 309" />
 
-            <View
-                android:id="@+id/tv_list_item_home_gas_station_divide3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/turtle_main"
-                app:layout_constraintBottom_toTopOf="@+id/tv_list_item_home_gas_station_hours_of_operation"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                <View
+                    android:id="@+id/tv_list_item_home_gas_station_divide2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/turtle_main"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_list_item_home_gas_station_addr" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_list_item_home_gas_station_hours_of_operation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:background="@color/turtle_main"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="영업중 (매일 24시간)" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/tv_list_item_home_gas_station_tel"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/black"
+                    app:icon="@drawable/ic_baseline_call_24"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/turtle_main"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_list_item_home_gas_station_hours_of_operation"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_list_item_home_gas_station_divide2"
+                    tools:text="041-858-0565" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_list_item_home_gas_station_yososu_stock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_list_item_home_gas_station_hours_of_operation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_list_item_home_gas_station_divide2"
+                    tools:text="요소수 재고 : 2120" />
 
-    </com.google.android.material.card.MaterialCardView>
+                <View
+                    android:id="@+id/tv_list_item_home_gas_station_divide3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/turtle_main"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_list_item_home_gas_station_hours_of_operation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_list_item_home_gas_station_hours_of_operation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/turtle_main"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="영업시간 : 매일 24시간" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
