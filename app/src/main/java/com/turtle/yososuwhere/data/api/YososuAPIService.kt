@@ -1,6 +1,6 @@
 package com.turtle.yososuwhere.data.api
 
-import com.turtle.yososuwhere.domain.model.YososuStationJsonBody
+import com.turtle.yososuwhere.data.model.YososuStationJsonBody
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET

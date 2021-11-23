@@ -47,7 +47,7 @@ class HomeFragment :
             showToast(it)
         })
 
-        viewModel.yososuStationList.observe(this@HomeFragment) { list ->
+        viewModel.yososuStationEntityList.observe(this@HomeFragment) { list ->
             yososuStationAdapter.submitList(list)
         }
     }

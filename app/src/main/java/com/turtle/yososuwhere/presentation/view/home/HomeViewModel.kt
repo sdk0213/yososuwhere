@@ -14,7 +14,7 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val _yososuStationList = MutableLiveData<List<YososuStation>>()
-    val yososuStationList: LiveData<List<YososuStation>> get() = _yososuStationList
+    val yososuStationEntityList: LiveData<List<YososuStation>> get() = _yososuStationList
 
     private val _errorMessage = MutableLiveData<Event<String>>()
     val errorMessage: LiveData<Event<String>> get() = _errorMessage
@@ -23,12 +23,14 @@ class HomeViewModel @Inject constructor(
         getYososuStation()
     }
 
-    fun getYososuStation(){
+    fun getYososuStation() {
         compositeDisposable.add(
             getGasStationListHasYososuUseCase.execute()
                 .subscribe(
                     { yososuList ->
-                        _yososuStationList.value = yososuList
+                        val list = yososuList.toMutableList()
+                        list.sortBy { it.stock }
+                        _yososuStationList.value = list
                     },
                     { throwable ->
                         Timber.e(throwable)

@@ -54,6 +54,7 @@
             android:layout_marginTop="8dp"
             android:text="업데이트\n(+ 현재위치/재고량으로 기준 재정렬)"
             android:textColor="@color/turtle_main"
+            android:onClick="@{() -> viewModel.getYososuStation()}"
             app:icon="@drawable/ic_baseline_refresh_24"
             app:iconGravity="textStart"
             app:iconTint="@color/turtle_main"
