@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
@@ -80,7 +81,7 @@ constructor(@LayoutRes private val layoutId: Int) : DaggerFragment() {
     protected fun showPopUpMessage(msg: String) {
         findNavController().navigate(
             R.id.view_dialog_fragment_show_text_view,
-            androidx.core.os.bundleOf(
+            bundleOf(
                 "textViewData" to
                         TextViewData(
                             returnKey = "NORMAL_TEXT_VIEW_POP_UP_MESSAGE",
