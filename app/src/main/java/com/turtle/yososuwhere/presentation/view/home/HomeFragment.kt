@@ -87,7 +87,14 @@ class HomeFragment :
 
         viewModel.yososuStationEntityList.observe(this@HomeFragment) { list ->
             yososuStationAdapter.submitList(list)
+            binding.recyclerviewHomeYososulist.smoothScrollToPosition(0)
         }
+
+        viewModel.cannotGetLocation.observe(this@HomeFragment, EventObserver{ noLocation ->
+            if(noLocation){
+                binding.tvHomeGps.text = "위치 정보를 가져올수 없습니다."
+            }
+        })
     }
 
 }

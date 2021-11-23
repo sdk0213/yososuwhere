@@ -8,7 +8,9 @@ import com.turtle.yososuwhere.domain.usecases.GetGasStationListHasYososuUseCase
 import com.turtle.yososuwhere.domain.usecases.GetLocationUseCase
 import com.turtle.yososuwhere.presentation.utilities.Event
 import com.turtle.yososuwhere.presentation.view.base.BaseViewModel
+import io.reactivex.Flowable
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.acos
 import kotlin.math.cos
@@ -28,6 +30,9 @@ class HomeViewModel @Inject constructor(
     private val _currentLocation = MutableLiveData(DomainLocation(address = "주소를 가져오는 중입니다."))
     val currentLocation: LiveData<DomainLocation> get() = _currentLocation
 
+    private val _cannotGetLocation = MutableLiveData<Event<Boolean>>()
+    val cannotGetLocation: LiveData<Event<Boolean>> get() = _cannotGetLocation
+
     init {
         getYososuStation()
     }
@@ -37,13 +42,21 @@ class HomeViewModel @Inject constructor(
             getGasStationListHasYososuUseCase.execute()
                 .subscribe(
                     { yososuList ->
-                        _yososuStationList.value = yososuList.sortedByDescending { it.stock }
                         val list = arrayListOf<YososuStation>()
+                        var hasLocation = false
                         compositeDisposable.add(getLocationUseCase.execute()
                             .take(1)
+                            .timeout(3, TimeUnit.SECONDS, Flowable.empty())
+                            .doOnComplete {
+                                if(!hasLocation) {
+                                    _yososuStationList.postValue(yososuList.sortedByDescending { it.stock })
+                                    _cannotGetLocation.postValue(Event(true))
+                                }
+                            }
                             .subscribe(
                                 { location ->
                                     if (location.latitude != 0.0) {
+                                        hasLocation = true
                                         _currentLocation.value = location
                                         yososuList.map {
                                             list.add(
@@ -75,6 +88,7 @@ class HomeViewModel @Inject constructor(
                                     }
                                 },
                                 { throwable ->
+                                    _yososuStationList.postValue(yososuList.sortedByDescending { it.stock })
                                     Timber.e(throwable)
                                 }
                             )
