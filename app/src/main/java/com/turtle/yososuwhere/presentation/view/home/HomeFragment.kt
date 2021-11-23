@@ -63,6 +63,8 @@ class HomeFragment :
                         if (tedPermissionResult.isGranted) {
                             Timber.d("권한이 허용됨")
                             viewModel.getYososuStation()
+                        } else {
+                            viewModel.getYososuStation()
                         }
                     },
                     {
@@ -135,11 +137,14 @@ class HomeFragment :
             showToast(it)
         })
 
-        viewModel.yososuStationEntityList.observe(this@HomeFragment) { list ->
+        viewModel.yososuStationEntityList.observe(this@HomeFragment, EventObserver { list ->
             showToast("주유소 요소수 정보를 업데이트하였습니다")
             yososuStationAdapter.submitList(list)
-            binding.recyclerviewHomeYososulist.smoothScrollToPosition(0)
-        }
+            handler.postDelayed({
+                binding.recyclerviewHomeYososulist.smoothScrollToPosition(0)
+            }, 500)
+
+        })
 
         viewModel.cannotGetLocation.observe(this@HomeFragment, EventObserver { noLocation ->
             if (noLocation) {

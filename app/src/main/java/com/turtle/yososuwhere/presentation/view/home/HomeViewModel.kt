@@ -21,8 +21,8 @@ class HomeViewModel @Inject constructor(
     private val getLocationUseCase: GetLocationUseCase
 ) : BaseViewModel() {
 
-    private val _yososuStationList = MutableLiveData<List<YososuStation>>()
-    val yososuStationEntityList: LiveData<List<YososuStation>> get() = _yososuStationList
+    private val _yososuStationList = MutableLiveData<Event<List<YososuStation>>>()
+    val yososuStationEntityList: LiveData<Event<List<YososuStation>>> get() = _yososuStationList
 
     private val _errorMessage = MutableLiveData<Event<String>>()
     val errorMessage: LiveData<Event<String>> get() = _errorMessage
@@ -32,10 +32,6 @@ class HomeViewModel @Inject constructor(
 
     private val _cannotGetLocation = MutableLiveData<Event<Boolean>>()
     val cannotGetLocation: LiveData<Event<Boolean>> get() = _cannotGetLocation
-
-    init {
-        getYososuStation()
-    }
 
     fun getYososuStation() {
         compositeDisposable.add(
@@ -48,8 +44,8 @@ class HomeViewModel @Inject constructor(
                             .take(1)
                             .timeout(3, TimeUnit.SECONDS, Flowable.empty())
                             .doOnComplete {
-                                if(!hasLocation) {
-                                    _yososuStationList.postValue(yososuList.sortedByDescending { it.stock })
+                                if (!hasLocation) {
+                                    _yososuStationList.postValue(Event(yososuList.sortedByDescending { it.stock }))
                                     _cannotGetLocation.postValue(Event(true))
                                 }
                             }
@@ -84,11 +80,11 @@ class HomeViewModel @Inject constructor(
                                         val sortedByKilometer = list.sortedWith(
                                             compareBy({ it.kilometer }, { it.stock })
                                         )
-                                        _yososuStationList.value = sortedByKilometer
+                                        _yososuStationList.value = Event(sortedByKilometer)
                                     }
                                 },
                                 { throwable ->
-                                    _yososuStationList.postValue(yososuList.sortedByDescending { it.stock })
+                                    _yososuStationList.postValue(Event(yososuList.sortedByDescending { it.stock }))
                                     Timber.e(throwable)
                                 }
                             )
