@@ -9,5 +9,5 @@
 * 맵 상에 마커로 요소수 재고량 뿌리기
 * 검색 지원
 ---
-### 앱 출시 (구글 측에서 검토중)
+### 앱 출시 (등록 진행중입니다 21/11/24~ )
 <img src = "https://user-images.githubusercontent.com/51182964/143018335-07516977-ebcd-484c-9ed6-58b89cdf17f8.png" width="20%" height="20%">  <img src = "https://user-images.githubusercontent.com/51182964/143018401-f566df54-b87f-41b4-ad9d-c933ca06bfee.png" width="20%" height="20%">  <img src = "https://user-images.githubusercontent.com/51182964/143018413-4305ef29-13e0-4a01-b041-aa2974f34fd4.png" width="20%" height="20%">  <img src = "https://user-images.githubusercontent.com/51182964/143018424-cc190b42-73e2-4604-ad8c-be985e7bcb41.png" width="20%" height="20%">
