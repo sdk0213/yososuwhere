@@ -11,5 +11,6 @@ data class YososuStation(
     val stock: Long,
     val tel: String,
     val addr: String,
-    val kilometer : Double = 0.0
+    val color: String, // 잔량 수량 구간
+    val kilometer: Double = 0.0
 )

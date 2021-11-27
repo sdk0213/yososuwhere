@@ -19,16 +19,17 @@ class YososuRepositoryImpl @Inject constructor(
                             emitter.onSuccess(list
                                 .map { entity ->
                                     YososuStation(
-                                        code = entity.코드,
-                                        cost = entity.가격,
-                                        name = entity.명칭,
-                                        lon = entity.경도.toDouble(),
-                                        lat = entity.위도.toDouble(),
-                                        dataStandard = entity.데이터기준일,
-                                        operationTime = entity.영업시간,
-                                        stock = entity.재고량.replace(",","").toLong(),
-                                        tel = entity.전화번호,
-                                        addr = entity.주소
+                                        code = entity.code ?: "알수 없음",
+                                        cost = entity.price ?: "0",
+                                        name = entity.name ?: "알수 없음",
+                                        lon = entity.lng?.toDouble() ?: 0.0,
+                                        lat = entity.lat?.toDouble() ?: 0.0,
+                                        dataStandard = entity.regDt ?: "알수 없음",
+                                        operationTime = entity.openTime ?: "알수 없음",
+                                        stock = entity.inventory?.replace(",", "")?.toLong() ?: 0L,
+                                        tel = entity.tel ?: "알수 없음",
+                                        addr = entity.addr ?: "알수 없음",
+                                        color = entity.color ?: "알수 없음"
                                     )
                                 }
                             )

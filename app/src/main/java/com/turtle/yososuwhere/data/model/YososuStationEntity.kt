@@ -23,14 +23,15 @@ data class YososuStationJsonBody(
 )
 
 data class YososuStationEntity(
-    val 가격: String,
-    val 경도: String,
-    val 데이터기준일: String,
-    val 명칭: String,
-    val 영업시간: String,
-    val 위도: String,
-    val 재고량: String,
-    val 전화번호: String,
-    val 주소: String,
-    val 코드: String
+    val price: String?,
+    val lng: String?,
+    val regDt: String?,
+    val name: String?,
+    val openTime: String?,
+    val lat: String?,
+    val inventory: String?,
+    val tel: String?,
+    val addr: String?,
+    val code: String?,
+    val color: String?
 )

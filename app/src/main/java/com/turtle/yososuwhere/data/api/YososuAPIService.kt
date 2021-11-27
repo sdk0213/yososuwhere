@@ -11,7 +11,7 @@ import java.net.URLDecoder
 interface YososuAPIService {
 
     // 요소수 주유소 정보 가져오기
-    @GET("v1/uddi:6b2017af-659d-437e-a549-c59788817675?")
+    @GET("inventory?")
     fun getYososuStationList(
         @Query("page") page: Int = 1,
         @Query("perPage") perPage: Int = 1000,

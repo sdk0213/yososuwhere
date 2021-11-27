@@ -9,8 +9,12 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.turtle.yososuwhere.R
 import com.turtle.yososuwhere.databinding.ListItemHomeYososuBinding
 import com.turtle.yososuwhere.domain.model.YososuStation
+import com.turtle.yososuwhere.presentation.utilities.extensions.convertToDateDetail
+import com.turtle.yososuwhere.presentation.utilities.extensions.getCountHourAndtime
+import java.util.*
 
 
 class HomeYososuStationAdapter constructor(
@@ -40,25 +44,45 @@ class HomeYososuStationAdapter constructor(
 
         fun bind(item: YososuStation, position: Int) {
             binding.apply {
-                tvListItemHomeGasStationTel.setOnClickListener {
+                btnListItemHomeGasStationTel.setOnClickListener {
                     val intent = Intent(Intent.ACTION_DIAL).apply {
-                        data = Uri.parse("tel:${tvListItemHomeGasStationTel.text}")
+                        data = Uri.parse("tel:${btnListItemHomeGasStationTel.text}")
                     }
                     startActivity(mContext, intent, null)
                 }
                 val hasYososu = item.stock == 0L
                 if (hasYososu) {
-                    tvListItemHomeGasStationYososuStock.setTextColor(0xFFD50000.toInt())
+                    tvListItemHomeGasStationYososuStock.setTextColor(0xFF888888.toInt())
                 } else {
                     tvListItemHomeGasStationYososuStock.setTextColor(0xFF000000.toInt())
                 }
                 tvListItemHomeGasStationNumber.text = "(${position + 1}/${itemCount})"
                 tvListItemHomeGasStationAddr.text = item.addr
                 tvListItemHomeGasStationName.text = item.name
-                tvListItemHomeGasStationTel.text = item.tel
+                btnListItemHomeGasStationTel.text = item.tel
                 tvListItemHomeGasStationHoursOfOperation.text = "영업시간 : ${item.operationTime}"
                 tvListItemHomeGasStationYososuStock.text =
-                    if (hasYososu) "요소수 없음" else "요소수 재고 : ${item.stock}"
+                    if (hasYososu) "요소수 없음" else "재고 : ${item.stock}"
+                tvListItemHomeGasStationYososuCost.text = "가격 : ${item.cost}원"
+                tvListItemHomeGasStationYososuStandardTime.text =
+                    "해당 주유소의 ${Date().getCountHourAndtime(item.dataStandard.convertToDateDetail())} 전 재고정보입니다"
+
+                imageViewListItemHomeGasStationColor.apply {
+                    when (item.color) {
+                        "GREEN" -> {
+                            setImageResource(R.drawable.flaticon_com_ic_traffic_lights_green)
+                        }
+                        "YELLOW" -> {
+                            setImageResource(R.drawable.flaticon_com_ic_traffic_lights_yellow)
+                        }
+                        "RED" -> {
+                            setImageResource(R.drawable.flaticon_com_ic_traffic_lights_red)
+                        }
+                        else -> {
+                            setImageResource(R.drawable.flaticon_com_ic_traffic_lights_gray)
+                        }
+                    }
+                }
 
                 cardViewListHome.setOnClickListener {
                     clipboardSave(item)

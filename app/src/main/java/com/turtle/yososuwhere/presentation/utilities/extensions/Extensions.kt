@@ -58,6 +58,9 @@ fun String.toEditable(): Editable =
 fun CharSequence.toEditable(): Editable =
     Editable.Factory.getInstance().newEditable(this)
 
+fun String.convertToDateDetail(): Date =
+    SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(this)!!
+
 fun String.convertToDateyyyyMMddHHmm(): Date =
     SimpleDateFormat("yyyyMMddHHmm", Locale.getDefault()).parse(this)!!
 
@@ -79,6 +82,17 @@ fun String.convertHHmm(): String =
 
 fun Date.getCountDay(endDate: Date): Long =
     ((this.time - endDate.time) / (24 * 60 * 60 * 1000)) + 1
+
+fun Date.getCountHourAndtime(endDate: Date): String {
+    val diffTime = this.time - endDate.time
+    val minute = ((diffTime) / (60 * 1000)) % 60
+    val hour = ((minute) / (60))
+    return if (hour == 0L) {
+        "${minute}분"
+    } else {
+        "${hour}시간 ${minute}분"
+    }
+}
 
 fun Context.hideKeyboard(windowToken: IBinder) =
     (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(

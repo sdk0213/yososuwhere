@@ -67,6 +67,7 @@ class HomeViewModel @Inject constructor(
                                                     stock = it.stock,
                                                     tel = it.tel,
                                                     addr = it.addr,
+                                                    color = it.color,
                                                     kilometer = distance(
                                                         location.latitude,
                                                         location.longitude,
