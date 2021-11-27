@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.turtle.yososuwhere.R
 import com.turtle.yososuwhere.databinding.ListItemHomeYososuBinding
 import com.turtle.yososuwhere.domain.model.YososuStation
+import com.turtle.yososuwhere.presentation.android.shard_pref.SharedPrefUtil
 import com.turtle.yososuwhere.presentation.utilities.extensions.convertToDateDetail
 import com.turtle.yososuwhere.presentation.utilities.extensions.getCountHourAndtime
 import java.util.*
@@ -19,10 +20,14 @@ import java.util.*
 
 class HomeYososuStationAdapter constructor(
     private val mContext: Context,
-    private val clipboardSave: (YososuStation) -> (Unit)
+    private val clipboardSave: (YososuStation) -> (Unit),
+    private val sharedPrefUtil: SharedPrefUtil
 ) : ListAdapter<YososuStation, HomeYososuStationAdapter.HomeYososuStationViewHolder>(
     HomeYososuStationDiffCallback()
 ) {
+
+    private var modelDataList = mutableListOf<YososuStation>()
+    private var viewDataList = mutableListOf<YososuStation>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeYososuStationViewHolder {
         return HomeYososuStationViewHolder(
@@ -35,14 +40,37 @@ class HomeYososuStationAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: HomeYososuStationViewHolder, position: Int) {
-        holder.bind(getItem(position), position)
+        holder.bind(getItem(position))
+    }
+
+    fun submit(list: List<YososuStation>) {
+        modelDataList = list.toMutableList()
+        if (sharedPrefUtil.useFilterByHasStock) {
+            filterByHasYososu()
+        } else {
+            noFilter()
+        }
+    }
+
+    // 필터 없음
+    fun noFilter() {
+        viewDataList = modelDataList
+        submitList(viewDataList)
+    }
+
+    // 요소수 없는곳 제외하기
+    fun filterByHasYososu() {
+        viewDataList = modelDataList
+        submitList(viewDataList.filter {
+            it.stock != 0L
+        })
     }
 
     inner class HomeYososuStationViewHolder(
         private val binding: ListItemHomeYososuBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: YososuStation, position: Int) {
+        fun bind(item: YososuStation) {
             binding.apply {
                 btnListItemHomeGasStationTel.setOnClickListener {
                     val intent = Intent(Intent.ACTION_DIAL).apply {
@@ -56,7 +84,6 @@ class HomeYososuStationAdapter constructor(
                 } else {
                     tvListItemHomeGasStationYososuStock.setTextColor(0xFF000000.toInt())
                 }
-                tvListItemHomeGasStationNumber.text = "(${position + 1}/${itemCount})"
                 tvListItemHomeGasStationAddr.text = item.addr
                 tvListItemHomeGasStationName.text = item.name
                 btnListItemHomeGasStationTel.text = item.tel

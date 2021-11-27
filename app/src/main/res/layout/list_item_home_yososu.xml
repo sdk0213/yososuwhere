@@ -7,26 +7,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_list_item_home_gas_station_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/card_view_list_home"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="(1/111)" />
-
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_view_list_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="15dp"
+            android:layout_margin="15dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="2dp"
             app:layout_constraintBottom_toBottomOf="parent"

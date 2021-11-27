@@ -11,14 +11,19 @@ import com.gun0912.tedpermission.TedPermissionResult
 import com.tedpark.tedpermission.rx2.TedRxPermission
 import com.turtle.yososuwhere.R
 import com.turtle.yososuwhere.databinding.FragmentHomeBinding
+import com.turtle.yososuwhere.presentation.android.shard_pref.SharedPrefUtil
 import com.turtle.yososuwhere.presentation.utilities.EventObserver
 import com.turtle.yososuwhere.presentation.view.base.BaseFragment
 import io.reactivex.Single
 import timber.log.Timber
+import javax.inject.Inject
 
 
 class HomeFragment :
     BaseFragment<HomeViewModel, FragmentHomeBinding>(R.layout.fragment_home) {
+
+    @Inject
+    lateinit var sharedPrefUtil: SharedPrefUtil
 
     private val permissionRx: Single<TedPermissionResult> by lazy {
         TedRxPermission.create().apply {
@@ -43,7 +48,8 @@ class HomeFragment :
                 val clip = ClipData.newPlainText("", "${it.addr}")
                 clipboard.setPrimaryClip(clip)
                 showToast("주유소 주소를 복사하였습니다.")
-            }
+            },
+            sharedPrefUtil = sharedPrefUtil
         )
     }
 
@@ -76,14 +82,15 @@ class HomeFragment :
 
     private fun view() {
         showPopUpMessage(
-            "데이터 출처 : 공공데이터 포털(공공데이터활용지원센터)\n" +
-                    "해당 앱에서 제공하는 정보는 부정확할수 있으며 자세한 사항은 해당 주유소에 직접 문의하시기 바랍니다.\n" +
-                    "해당 앱에서 제공받은 정보로 발생하는 불이익은 사용자에게 있습니다.\n" +
-                    "데이터는 하루 두번 업데이트 됩니다.\n" +
-                    "(12시 기준의 데이터를 14시에 업데이트)\n" +
-                    "(18시 기준의 데이터를 20시에 업데이트)"
+            "데이터 제공기관 : 환경부(교통환경과)\n\n" +
+                    "전국의 중점 유통 주유소의 요소수 재고 현황이며, 요소수 중점유통 주유소에서 2시간 간격으로 입력하는 데이터를 5분 단위로 업데이트하여 제공하여 실제 재고 현황과 일부 차이가 있을 수 있습니다.\n\n" +
+                    "공개되는 요소수 가격은 기본적으로 벌크 요소수 가격이며, 페트 요소수 가격은 표시된 가격과 다를 수 있습니다.\n" +
+                    "벌크 요소수가 매진 되었을 경우, 페트 요소수 가격으로 업데이트 됩니다.\n\n\n" +
+                    "(해당 앱에서 제공하는 정보는 부정확할수 있으며 자세한 사항은 해당 주유소에 직접 문의하시기 바랍니다.)\n" +
+                    "(해당 앱에서 제공받은 정보로 발생하는 불이익은 사용자에게 있습니다.)"
         )
 
+        binding.checkboxHomeFilterHasYososu.isChecked = sharedPrefUtil.useFilterByHasStock
     }
 
     private fun viewModel() {
@@ -129,6 +136,15 @@ class HomeFragment :
                 }
             }
         }
+
+        binding.checkboxHomeFilterHasYososu.setOnCheckedChangeListener { _, isChecked ->
+            sharedPrefUtil.useFilterByHasStock = isChecked
+            if (isChecked) {
+                yososuStationAdapter.filterByHasYososu()
+            } else {
+                yososuStationAdapter.noFilter()
+            }
+        }
     }
 
     private fun observer() {
@@ -139,7 +155,11 @@ class HomeFragment :
 
         viewModel.yososuStationEntityList.observe(this@HomeFragment, EventObserver { list ->
             showToast("주유소 요소수 정보를 업데이트하였습니다")
-            yososuStationAdapter.submitList(list)
+            binding.tvHomeHasStockColorGreen.text = list.count { it.color == "GREEN" }.toString()
+            binding.tvHomeHasStockColorYellow.text = list.count { it.color == "YELLOW" }.toString()
+            binding.tvHomeHasStockColorRed.text = list.count { it.color == "RED" }.toString()
+            binding.tvHomeHasStockColorGray.text = list.count { it.color == "GRAY" }.toString()
+            yososuStationAdapter.submit(list)
             handler.postDelayed({
                 binding.recyclerviewHomeYososulist.smoothScrollToPosition(0)
             }, 500)

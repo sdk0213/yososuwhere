@@ -9,13 +9,13 @@ class SharedPrefUtil @Inject constructor(
 ) {
 
     companion object {
-        private const val IS_LOGGED_IN = "pref_is_logged_in"
+        private const val prefUseFilterByHasStock = "pref_use_filter_by_has_stock"
     }
 
-    var isLoggedDevices: Boolean
-        get() = sharedPreferences.getBoolean(IS_LOGGED_IN, false)
+    var useFilterByHasStock: Boolean
+        get() = sharedPreferences.getBoolean(prefUseFilterByHasStock, false)
         set(value) {
-            editor.putBoolean(IS_LOGGED_IN, value)
+            editor.putBoolean(prefUseFilterByHasStock, value)
             editor.apply()
         }
 
