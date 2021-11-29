@@ -10,6 +10,7 @@ import com.turtle.yososuwhere.presentation.android.di.scope.FragmentScope
 import com.turtle.yososuwhere.presentation.view.dialog.TextViewDialogFragment
 import com.turtle.yososuwhere.presentation.view.home.HomeFragment
 import com.turtle.yososuwhere.presentation.view.main.MainActivity
+import com.turtle.yososuwhere.presentation.view.map.MapFragment
 import com.turtle.yososuwhere.presentation.view.qna.QNAFragment
 import dagger.Module
 import dagger.Provides
@@ -41,6 +42,10 @@ abstract class ViewModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [QNAModule::class])
     abstract fun getQNAFragment(): QNAFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [MapModule::class])
+    abstract fun getMapFragment(): MapFragment
 
     @FragmentScope
     @ContributesAndroidInjector(modules = [TextViewValueModule::class])
