@@ -4,9 +4,8 @@ buildscript {
         jcenter()
         google()
         mavenCentral()
-        maven {
-            url 'https://jitpack.io'
-        }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://naver.jfrog.io/artifactory/maven/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.3'
