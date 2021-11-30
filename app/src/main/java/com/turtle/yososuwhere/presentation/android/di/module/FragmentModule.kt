@@ -9,4 +9,7 @@ class MainModule {}
 class QNAModule {}
 
 @Module
+class MapModule {}
+
+@Module
 class TextViewValueModule {}

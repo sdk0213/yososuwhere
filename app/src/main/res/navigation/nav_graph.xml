@@ -38,6 +38,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+            android:id="@+id/action_homeFragment_to_mapFragment"
+            app:destination="@id/mapFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
 
@@ -57,6 +65,14 @@
         android:name="com.turtle.yososuwhere.presentation.view.qna.QNAFragment"
         android:label="QNAFragment"
         tools:layout="@layout/fragment_qna">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.turtle.yososuwhere.presentation.view.map.MapFragment"
+        android:label="MapFragment"
+        tools:layout="@layout/fragment_map">
 
     </fragment>
 

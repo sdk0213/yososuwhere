@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.turtle.yososuwhere.presentation.android.di.factory.ViewModelFactory
 import com.turtle.yososuwhere.presentation.android.di.key.ViewModelKey
 import com.turtle.yososuwhere.presentation.view.home.HomeViewModel
+import com.turtle.yososuwhere.presentation.view.map.MapViewModel
 import com.turtle.yososuwhere.presentation.view.qna.QNAViewModel
 import dagger.Binds
 import dagger.Module
@@ -25,4 +26,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(QNAViewModel::class)
     abstract fun bindsQNAViewModel(viewModel: QNAViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MapViewModel::class)
+    abstract fun bindsMapViewModel(viewModel: MapViewModel): ViewModel
 }
