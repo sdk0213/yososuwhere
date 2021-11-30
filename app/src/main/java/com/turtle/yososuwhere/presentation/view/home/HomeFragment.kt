@@ -111,7 +111,9 @@ class HomeFragment :
                     true
                 }
                 R.id.item_search_map -> {
-                    showToast("기능 준비중입니다.")
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToMapFragment()
+                    )
                     true
                 }
                 R.id.item_qna -> {

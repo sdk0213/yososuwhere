@@ -17,7 +17,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Yososu" >
+        android:theme="@style/Theme.Yososu">
 
         <activity
             android:name=".presentation.view.main.MainActivity"
@@ -34,6 +34,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:exported="false"
             android:value="${MAPS_API_KEY}" />
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:exported="false"
+            android:value="${NAVER_MAPS_API_KEY}" />
 
     </application>
 
