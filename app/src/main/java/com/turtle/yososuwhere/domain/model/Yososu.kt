@@ -1,5 +1,9 @@
 package com.turtle.yososuwhere.domain.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class YososuStation(
     val code: String,
     val cost: String,
@@ -13,4 +17,7 @@ data class YososuStation(
     val addr: String,
     val color: String, // 잔량 수량 구간
     val kilometer: Double = 0.0
-)
+) : Parcelable
+
+@Parcelize
+class YososuStations : ArrayList<YososuStation>(), Parcelable

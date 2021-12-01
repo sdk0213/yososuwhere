@@ -40,7 +40,7 @@
 
         <action
             android:id="@+id/action_homeFragment_to_mapFragment"
-            app:destination="@id/mapFragment"
+            app:destination="@id/yososuMapFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -69,10 +69,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/mapFragment"
-        android:name="com.turtle.yososuwhere.presentation.view.map.MapFragment"
-        android:label="MapFragment"
-        tools:layout="@layout/fragment_map">
+        android:id="@+id/yososuMapFragment"
+        android:name="com.turtle.yososuwhere.presentation.view.yososu_map.YososuMapFragment"
+        android:label="YososuMapFragment"
+        tools:layout="@layout/fragment_yososu_map">
+
+        <argument
+            android:name="yososuStations"
+            app:argType="com.turtle.yososuwhere.domain.model.YososuStations" />
 
     </fragment>
 

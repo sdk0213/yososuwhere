@@ -11,6 +11,7 @@ import com.gun0912.tedpermission.TedPermissionResult
 import com.tedpark.tedpermission.rx2.TedRxPermission
 import com.turtle.yososuwhere.R
 import com.turtle.yososuwhere.databinding.FragmentHomeBinding
+import com.turtle.yososuwhere.domain.model.YososuStations
 import com.turtle.yososuwhere.presentation.android.shard_pref.SharedPrefUtil
 import com.turtle.yososuwhere.presentation.utilities.EventObserver
 import com.turtle.yososuwhere.presentation.view.base.BaseFragment
@@ -91,11 +92,11 @@ class HomeFragment :
         )
 
         binding.checkboxHomeFilterHasYososu.isChecked = sharedPrefUtil.useFilterByHasStock
+        binding.recyclerviewHomeYososulist.adapter = yososuStationAdapter
     }
 
     private fun viewModel() {
         binding.viewModel = viewModel
-        binding.recyclerviewHomeYososulist.adapter = yososuStationAdapter
     }
 
     private fun listener() {
@@ -112,7 +113,12 @@ class HomeFragment :
                 }
                 R.id.item_search_map -> {
                     findNavController().navigate(
-                        HomeFragmentDirections.actionHomeFragmentToMapFragment()
+                        HomeFragmentDirections.actionHomeFragmentToMapFragment(
+                            YososuStations().apply {
+                                viewModel.yososuStationEntityList.value?.peekContent()
+                                    ?.let { yososuStations -> addAll(yososuStations) }
+                            }
+                        )
                     )
                     true
                 }
