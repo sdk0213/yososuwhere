@@ -1,5 +1,7 @@
-# 요소수어디 
+# 요소수 어디 
 * 해당 앱에서 제공하는 데이터는 '환경부' 에서 제공받으며 이는 공공데이터 포털에서 제공하는 API 를 사용하여 가져옵니다.
+* 해당 앱은 광고가 없습니다.
+* [구글 플레이스토어 '요소수 여기'](https://play.google.com/store/apps/details?id=com.turtle.yososuwhere)
 ---
 ### 기능
 * 내 위치에서 가장 가까운 순서대로 목록에 출력
@@ -24,3 +26,10 @@
   * 요소수 재고 없는 곳 제외하여 보기
 
 <img src = "https://user-images.githubusercontent.com/51182964/143728126-2d81094b-6e4f-4fbe-8f29-49daac14c7df.png" width="20%" height="20%"> <img src = "https://user-images.githubusercontent.com/51182964/143728125-754f43ca-d66d-49bf-a569-8ddc5f937881.png" width="20%" height="20%"> <img src = "https://user-images.githubusercontent.com/51182964/143728122-ad360992-1a31-4326-9289-73e8630267fd.png" width="20%" height="20%">
+
+
+---
+### v1.2
+* 네이버 지도로 요소수 보기 / 필터링
+
+<img src = "https://user-images.githubusercontent.com/51182964/144257135-d2fde504-ea22-45e1-bf0a-dab8163b9b50.png" width="20%" height="20%"> <img src = "https://user-images.githubusercontent.com/51182964/144257157-8158954c-2bc1-4c8e-b499-f4f05b9be9d8.png" width="20%" height="20%"> <img src = "https://user-images.githubusercontent.com/51182964/144257159-c5d5625e-4509-4d28-9102-4e2d1132bd11.png" width="20%" height="20%">
