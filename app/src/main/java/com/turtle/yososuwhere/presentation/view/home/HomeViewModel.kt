@@ -16,6 +16,8 @@ import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.sin
 
+
+// todo: YososuMapViewModel 과 HomeViewModel 를 통합한 SharedViewModel 로 구성
 class HomeViewModel @Inject constructor(
     private val getGasStationListHasYososuUseCase: GetGasStationListHasYososuUseCase,
     private val getLocationUseCase: GetLocationUseCase

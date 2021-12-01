@@ -90,8 +90,8 @@ class HomeFragment :
                     "(해당 앱에서 제공하는 정보는 부정확할수 있으며 자세한 사항은 해당 주유소에 직접 문의하시기 바랍니다.)\n" +
                     "(해당 앱에서 제공받은 정보로 발생하는 불이익은 사용자에게 있습니다.)"
         )
-
-        binding.checkboxHomeFilterHasYososu.isChecked = sharedPrefUtil.useFilterByHasStock
+        binding.topAppBar.menu.findItem(R.id.item_home_filter)
+            .setIcon(if (sharedPrefUtil.useFilterByHasStock) R.drawable.ic_baseline_filter_list_24 else R.drawable.ic_baseline_filter_list_off_24)
         binding.recyclerviewHomeYososulist.adapter = yososuStationAdapter
     }
 
@@ -107,8 +107,12 @@ class HomeFragment :
                     requestPermission()
                     true
                 }
-                R.id.item_search -> {
-                    showToast("기능 준비중입니다.")
+                R.id.item_home_filter -> {
+                    sharedPrefUtil.useFilterByHasStock = !sharedPrefUtil.useFilterByHasStock
+                    binding.topAppBar.menu.findItem(R.id.item_home_filter)
+                        .setIcon(if (sharedPrefUtil.useFilterByHasStock) R.drawable.ic_baseline_filter_list_24 else R.drawable.ic_baseline_filter_list_off_24)
+                    if (sharedPrefUtil.useFilterByHasStock) yososuStationAdapter.filterByHasYososu() else yososuStationAdapter.noFilter()
+                    showToast(if (sharedPrefUtil.useFilterByHasStock) "요소수 없는곳 제외" else "전부 표시")
                     true
                 }
                 R.id.item_search_map -> {
@@ -145,14 +149,6 @@ class HomeFragment :
             }
         }
 
-        binding.checkboxHomeFilterHasYososu.setOnCheckedChangeListener { _, isChecked ->
-            sharedPrefUtil.useFilterByHasStock = isChecked
-            if (isChecked) {
-                yososuStationAdapter.filterByHasYososu()
-            } else {
-                yososuStationAdapter.noFilter()
-            }
-        }
     }
 
     private fun observer() {

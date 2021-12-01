@@ -7,6 +7,7 @@ import com.turtle.yososuwhere.domain.model.YososuStations
 import com.turtle.yososuwhere.presentation.view.base.BaseViewModel
 import javax.inject.Inject
 
+// todo: YososuMapViewModel 과 HomeViewModel 를 통합한 SharedViewModel 로 구성
 class YososuMapViewModel @Inject constructor(
 ) : BaseViewModel() {
 

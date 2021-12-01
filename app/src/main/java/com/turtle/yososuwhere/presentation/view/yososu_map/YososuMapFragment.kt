@@ -17,6 +17,7 @@ import com.naver.maps.map.util.FusedLocationSource
 import com.tedpark.tedpermission.rx2.TedRxPermission
 import com.turtle.yososuwhere.R
 import com.turtle.yososuwhere.databinding.FragmentYososuMapBinding
+import com.turtle.yososuwhere.domain.model.YososuStations
 import com.turtle.yososuwhere.presentation.android.shard_pref.SharedPrefUtil
 import com.turtle.yososuwhere.presentation.view.base.BaseFragment
 import io.reactivex.Single
@@ -63,7 +64,6 @@ class YososuMapFragment :
                     requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clip = ClipData.newPlainText("", "${yososuStation.addr}")
                 clipboard.setPrimaryClip(clip)
-                showToast("주유소 주소를 복사하였습니다.")
                 markers.find {
                     it.position.let { latLng ->
                         latLng.latitude == yososuStation.lat || latLng.longitude == yososuStation.lon
@@ -82,6 +82,8 @@ class YososuMapFragment :
     }
 
     private val args: YososuMapFragmentArgs by navArgs()
+
+    private lateinit var viewList: YososuStations
 
     override fun init() {
         view()
@@ -112,7 +114,8 @@ class YososuMapFragment :
 
     private fun view() {
         binding.recyclerviewYososuMapYososulist.adapter = yososuStationAdapter
-
+        binding.topAppBar.menu.findItem(R.id.item_map_filter)
+            .setIcon(if (sharedPrefUtil.useFilterByHasStock) R.drawable.ic_baseline_filter_list_24 else R.drawable.ic_baseline_filter_list_off_24)
     }
 
     private fun viewModel() {
@@ -126,57 +129,35 @@ class YososuMapFragment :
         binding.btnYososuMapMyLocation.setOnClickListener {
             mMap.locationTrackingMode = trackingMode
         }
+
+        binding.topAppBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.item_map_filter -> {
+                    sharedPrefUtil.useFilterByHasStock = !sharedPrefUtil.useFilterByHasStock
+                    binding.topAppBar.menu.findItem(R.id.item_map_filter)
+                        .setIcon(if (sharedPrefUtil.useFilterByHasStock) R.drawable.ic_baseline_filter_list_24 else R.drawable.ic_baseline_filter_list_off_24)
+                    showToast(if (sharedPrefUtil.useFilterByHasStock) "요소수 없는곳 제외" else "전부 표시")
+                    if (sharedPrefUtil.useFilterByHasStock) yososuStationAdapter.filterByHasYososu() else yososuStationAdapter.noFilter()
+                    refreshMarkers()
+                    true
+                }
+                else -> {
+                    true
+                }
+            }
+        }
     }
 
     private fun observer() {
         viewModel.myLocation.observe(this@YososuMapFragment) { location ->
-            Timber.tag("dksung").d(location.toString())
+            Timber.d(location.toString())
         }
 
         viewModel.yososuList.observe(this@YososuMapFragment) { yososuList ->
-            yososuStationAdapter.submit(yososuList)
-            val filteredList =
-                if (sharedPrefUtil.useFilterByHasStock) yososuList.filter { it.stock != 0L } else yososuList
-            filteredList.forEach { yososuStation ->
-                markers.add(
-                    // 마커 그리기 및 뷰 붙히기
-                    Marker().apply {
-                        position = LatLng(yososuStation.lat, yososuStation.lon)
-                        icon = OverlayImage.fromView(
-                            (layoutInflater.inflate(
-                                R.layout.item_marker,
-                                null
-                            ) as ConstraintLayout).apply {
-                                (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).text =
-                                    yososuStation.name
-                                (this.getViewById(R.id.tv_marker_stock) as TextView).text =
-                                    "${getString(R.string.map_marker_stock)} : ${yososuStation.stock}"
-                                (this.getViewById(R.id.tv_marker_cost) as TextView).text =
-                                    "${getString(R.string.map_marker_cost)} : ${yososuStation.cost}원"
-                                onClickListener = Overlay.OnClickListener {
-                                    val latLng = LatLng(
-                                        yososuStation.lat,
-                                        yososuStation.lon
-                                    )
-                                    moveToNaverMapMarker(latLng)
-                                    Timber.tag("dksung").d("yososuStation : ${yososuStation.name}")
-                                    Timber.tag("dksung")
-                                        .d("${yososuStationAdapter.currentList.indexOf(yososuStation)}")
-                                    for (i in 0 until yososuStationAdapter.currentList.size) {
-                                        Timber.tag("dksung")
-                                            .d("$i = ${yososuStationAdapter.currentList[i].name}")
-                                    }
-                                    binding.recyclerviewYososuMapYososulist.smoothScrollToPosition(
-                                        yososuStationAdapter.currentList.indexOf(yososuStation) ?: 0
-                                    )
-                                    true
-                                }
-                                isHideCollidedMarkers = true
-                            }
-                        )
-                    }
-                )
-            }
+            // View 에서 관리가능하도록 리스트 저장
+            viewList = yososuList
+            yososuStationAdapter.submit(viewList)
+            makeMarkerWithFilterd(viewList)
         }
     }
 
@@ -201,8 +182,53 @@ class YososuMapFragment :
                     .animate(CameraAnimation.Fly) // 이동 애니메이션 처리
                     .finishCallback {
                         // 13.5 로 줌
-                        mMap.moveCamera(CameraUpdate.zoomTo(11.0))
+                        mMap.moveCamera(CameraUpdate.zoomTo(14.0))
                     }
+            )
+        }
+    }
+
+    private fun refreshMarkers() {
+        markers.forEach { it.map = null }
+        markers.clear()
+        makeMarkerWithFilterd(viewList)
+        markers.forEach { it.map = mMap }
+    }
+
+    private fun makeMarkerWithFilterd(yososuList: YososuStations) {
+        val filteredList =
+            if (sharedPrefUtil.useFilterByHasStock) yososuList.filter { it.stock != 0L } else yososuList
+        filteredList.forEach { yososuStation ->
+            markers.add(
+                // 마커 그리기 및 뷰 붙히기
+                Marker().apply {
+                    position = LatLng(yososuStation.lat, yososuStation.lon)
+                    icon = OverlayImage.fromView(
+                        (layoutInflater.inflate(
+                            R.layout.item_marker,
+                            null
+                        ) as ConstraintLayout).apply {
+                            (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).text =
+                                yososuStation.name
+                            (this.getViewById(R.id.tv_marker_stock) as TextView).text =
+                                "${getString(R.string.map_marker_stock)} : ${yososuStation.stock}"
+                            (this.getViewById(R.id.tv_marker_cost) as TextView).text =
+                                "${getString(R.string.map_marker_cost)} : ${yososuStation.cost}원"
+                            onClickListener = Overlay.OnClickListener {
+                                val latLng = LatLng(
+                                    yososuStation.lat,
+                                    yososuStation.lon
+                                )
+                                moveToNaverMapMarker(latLng)
+                                binding.recyclerviewYososuMapYososulist.smoothScrollToPosition(
+                                    yososuStationAdapter.currentList.indexOf(yososuStation) ?: 0
+                                )
+                                true
+                            }
+                            isHideCollidedMarkers = true
+                        }
+                    )
+                }
             )
         }
     }

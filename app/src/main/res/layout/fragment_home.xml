@@ -51,17 +51,6 @@
             app:layout_constraintVertical_bias="0"
             tools:text="충북 영동군 추풍령면 계룡리 86-33 2206 가가나나나동 다다라라리 마마바바읍 " />
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkbox_home_filter_has_yososu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:text="요소수 없는곳(회색불) 제외"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_gps" />
-
         <View
             android:id="@+id/view_home_yososu_stock_color_green"
             android:layout_width="10dp"
@@ -156,7 +145,7 @@
             android:textColor="@color/turtle_main"
             app:layout_constraintEnd_toStartOf="@+id/view_home_yososu_stock_color_gray"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkbox_home_filter_has_yososu" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_home_gps" />
 
         <View
             android:id="@+id/view_1"
