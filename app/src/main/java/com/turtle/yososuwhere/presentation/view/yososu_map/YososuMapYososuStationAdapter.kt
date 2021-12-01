@@ -90,8 +90,12 @@ class MapYososuStationAdapter constructor(
                 val hasYososu = item.stock == 0L
                 if (hasYososu) {
                     tvListItemHomeGasStationYososuStock.setTextColor(0xFF888888.toInt())
+                    tvListItemHomeGasStationName.setTextColor(0xFFFFFFFF.toInt())
+                    tvListItemHomeGasStationName.setBackgroundColor(0xFF000000.toInt())
                 } else {
                     tvListItemHomeGasStationYososuStock.setTextColor(0xFF000000.toInt())
+                    tvListItemHomeGasStationName.setTextColor(0xFFFFFFFF.toInt())
+                    tvListItemHomeGasStationName.setBackgroundColor(0xFFFF6E40.toInt())
                 }
                 tvListItemHomeGasStationAddr.text = item.addr
                 tvListItemHomeGasStationName.text = item.name

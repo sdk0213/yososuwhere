@@ -6,6 +6,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.gun0912.tedpermission.TedPermissionResult
 import com.naver.maps.geometry.LatLng
@@ -113,6 +114,14 @@ class YososuMapFragment :
     }
 
     private fun view() {
+        binding.topAppBar.apply {
+            setNavigationIcon(R.drawable.ic_baseline_keyboard_backspace_24)
+            setNavigationIconTint(0xFFFFFFFF.toInt())
+            setOnClickListener {
+                findNavController().navigateUp()
+            }
+        }
+
         binding.recyclerviewYososuMapYososulist.adapter = yososuStationAdapter
         binding.topAppBar.menu.findItem(R.id.item_map_filter)
             .setIcon(if (sharedPrefUtil.useFilterByHasStock) R.drawable.ic_baseline_filter_list_24 else R.drawable.ic_baseline_filter_list_off_24)
@@ -212,6 +221,13 @@ class YososuMapFragment :
                                 yososuStation.name
                             (this.getViewById(R.id.tv_marker_stock) as TextView).text =
                                 "${getString(R.string.map_marker_stock)} : ${yososuStation.stock}"
+                            if(yososuStation.stock == 0L){
+                                (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setTextColor(0xFFFFFFFF.toInt())
+                                (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setBackgroundColor(0xFF000000.toInt())
+                            } else {
+                                (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setTextColor(0xFFFFFFFF.toInt())
+                                (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setBackgroundColor(0xFFFF6E40.toInt())
+                            }
                             (this.getViewById(R.id.tv_marker_cost) as TextView).text =
                                 "${getString(R.string.map_marker_cost)} : ${yososuStation.cost}원"
                             onClickListener = Overlay.OnClickListener {
