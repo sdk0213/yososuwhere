@@ -236,7 +236,7 @@ class YososuMapFragment :
                                     yososuStation.lon
                                 )
                                 moveToNaverMapMarker(latLng)
-                                binding.recyclerviewYososuMapYososulist.smoothScrollToPosition(
+                                binding.recyclerviewYososuMapYososulist.scrollToPosition(
                                     yososuStationAdapter.currentList.indexOf(yososuStation) ?: 0
                                 )
                                 true

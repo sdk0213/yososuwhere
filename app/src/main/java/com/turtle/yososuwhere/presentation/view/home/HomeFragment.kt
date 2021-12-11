@@ -165,7 +165,7 @@ class HomeFragment :
             binding.tvHomeHasStockColorGray.text = list.count { it.color == "GRAY" }.toString()
             yososuStationAdapter.submit(list)
             handler.postDelayed({
-                binding.recyclerviewHomeYososulist.smoothScrollToPosition(0)
+                binding.recyclerviewHomeYososulist.scrollToPosition(0)
             }, 500)
 
         })

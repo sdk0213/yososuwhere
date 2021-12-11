@@ -13,6 +13,6 @@
 
     <!-- 맵 -->
     <string name="map_marker_stock">재고</string>
-    <string name="map_marker_cost">비용</string>
+    <string name="map_marker_cost">가격</string>
 
 </resources>
