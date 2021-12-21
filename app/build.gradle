@@ -88,7 +88,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
     implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
 
+    // Paging v3
     implementation "androidx.paging:paging-rxjava2-ktx:3.1.0"
+    implementation 'androidx.paging:paging-runtime-ktx:3.1.0'
 
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
