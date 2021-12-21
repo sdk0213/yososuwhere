@@ -18,7 +18,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/view_fragment_home">
+    app:startDestination="@id/view_yososu_map_fragment">
 
     <!--    enterAnim : action 실행시, 이동할 Destination에 대한 애니메이션-->
     <!--    exitAnim : action을 실행할 때 현재 Destination에 대한 애니메이션-->
@@ -29,22 +29,6 @@
         android:id="@+id/view_fragment_home"
         android:name="com.turtle.yososuwhere.presentation.view.home.HomeFragment"
         tools:layout="@layout/fragment_home">
-
-        <action
-            android:id="@+id/action_homeFragment_to_qnaFragment"
-            app:destination="@id/qnaFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/action_homeFragment_to_mapFragment"
-            app:destination="@id/yososuMapFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 
@@ -61,7 +45,7 @@
     </dialog>
 
     <fragment
-        android:id="@+id/qnaFragment"
+        android:id="@+id/view_qna_fragment"
         android:name="com.turtle.yososuwhere.presentation.view.qna.QNAFragment"
         android:label="QNAFragment"
         tools:layout="@layout/fragment_qna">
@@ -69,14 +53,26 @@
     </fragment>
 
     <fragment
-        android:id="@+id/yososuMapFragment"
+        android:id="@+id/view_yososu_map_fragment"
         android:name="com.turtle.yososuwhere.presentation.view.yososu_map.YososuMapFragment"
-        android:label="YososuMapFragment"
+        android:label="view_yososu_map_fragment"
         tools:layout="@layout/fragment_yososu_map">
 
-        <argument
-            android:name="yososuStations"
-            app:argType="com.turtle.yososuwhere.domain.model.YososuStations" />
+        <action
+            android:id="@+id/action_mapFragment_to_qnaFragment"
+            app:destination="@id/view_qna_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_mapFragment_to_homeFragment"
+            app:destination="@id/view_fragment_home"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 

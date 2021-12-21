@@ -18,6 +18,3 @@ data class YososuStation(
     val color: String, // 잔량 수량 구간
     val kilometer: Double = 0.0
 ) : Parcelable
-
-@Parcelize
-class YososuStations : ArrayList<YososuStation>(), Parcelable
