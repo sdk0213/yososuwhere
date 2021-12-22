@@ -1,11 +1,11 @@
 package com.turtle.yososuwhere.presentation.view.home
 
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.turtle.yososuwhere.R
 import com.turtle.yososuwhere.databinding.FragmentHomeBinding
 import com.turtle.yososuwhere.presentation.android.shard_pref.SharedPrefUtil
 import com.turtle.yososuwhere.presentation.view.base.BaseFragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 
@@ -14,6 +14,8 @@ class HomeFragment :
 
     @Inject
     lateinit var sharedPrefUtil: SharedPrefUtil
+
+    private val args: HomeFragmentArgs? by navArgs()
 
     private val yososuStationAdapter: HomeYososuStationPagingAdapter by lazy {
         HomeYososuStationPagingAdapter(
@@ -40,9 +42,27 @@ class HomeFragment :
                 findNavController().navigateUp()
             }
         }
+
+        args?.let {
+            (0..3).forEach { count ->
+                when (count) {
+                    0 -> {
+                        binding.tvHomeHasStockColorGreen.text = it.yososuCount.split("/")[count]
+                    }
+                    1 -> {
+                        binding.tvHomeHasStockColorYellow.text = it.yososuCount.split("/")[count]
+                    }
+                    2 -> {
+                        binding.tvHomeHasStockColorRed.text = it.yososuCount.split("/")[count]
+                    }
+                    3 -> {
+                        binding.tvHomeHasStockColorGray.text = it.yososuCount.split("/")[count]
+                    }
+                }
+            }
+        }
     }
 
-    @ExperimentalCoroutinesApi
     private fun viewModel() {
         binding.viewModel = viewModel
         viewModel.getYososuStationByPaging()

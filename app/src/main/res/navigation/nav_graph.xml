@@ -30,6 +30,10 @@
         android:name="com.turtle.yososuwhere.presentation.view.home.HomeFragment"
         tools:layout="@layout/fragment_home">
 
+        <argument
+            android:name="yososuCount"
+            app:argType="string" />
+
     </fragment>
 
 
