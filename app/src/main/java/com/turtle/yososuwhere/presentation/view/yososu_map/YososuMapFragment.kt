@@ -2,6 +2,7 @@ package com.turtle.yososuwhere.presentation.view.yososu_map
 
 import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.findNavController
@@ -31,16 +32,13 @@ class YososuMapFragment :
     @Inject
     lateinit var sharedPrefUtil: SharedPrefUtil
 
-    private var trackingMode = LocationTrackingMode.None
     private val mapFragment: MapFragment by lazy {
         childFragmentManager.findFragmentById(R.id.fragment_naver_map) as MapFragment
     }
 
-    private lateinit var mMap: NaverMap
+    private var mMap: NaverMap? = null
 
     private val markers = mutableListOf<Marker>()
-
-    private lateinit var locationSource: FusedLocationSource
 
     private val permissionRx: Single<TedPermissionResult> by lazy {
         TedRxPermission.create().apply {
@@ -60,24 +58,19 @@ class YososuMapFragment :
         MapYososuStationAdapter(
             mContext = mContext,
             moveToMarker = { yososuStation ->
-                markers.find {
-                    it.position.let { latLng ->
-                        latLng.latitude == yososuStation.lat || latLng.longitude == yososuStation.lon
-                    }
-                }?.let {
-                    moveToNaverMapMarker(
-                        LatLng(
-                            it.position.latitude,
-                            it.position.longitude
-                        )
+                moveCameraToLatLng(
+                    LatLng(
+                        yososuStation.lat,
+                        yososuStation.lon
                     )
-                }
+                )
             },
             sharedPrefUtil = sharedPrefUtil
         )
     }
 
-    private var viewList = mutableListOf<YososuStation>()
+    // View 에서 관리가능하도록 리스트 저장
+    private var viewYososuStationList = mutableListOf<YososuStation>()
 
     override fun init() {
         view()
@@ -92,10 +85,12 @@ class YososuMapFragment :
             permissionRx
                 .subscribe(
                     { tedPermissionResult ->
-                        trackingMode = if (tedPermissionResult.isGranted) {
-                            LocationTrackingMode.Follow
-                        } else {
-                            LocationTrackingMode.None
+                        mMap?.let {
+                            it.locationTrackingMode = if (tedPermissionResult.isGranted) {
+                                LocationTrackingMode.Follow
+                            } else {
+                                LocationTrackingMode.None
+                            }
                         }
                     },
                     {
@@ -123,6 +118,8 @@ class YososuMapFragment :
 
     private fun viewModel() {
         binding.viewModel = viewModel
+        binding.progressBar.show()
+        viewModel.getYososuStation()
     }
 
     private fun listener() {
@@ -130,21 +127,30 @@ class YososuMapFragment :
         binding.topAppBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_refresh -> {
-                    requestPermission()
+                    viewModel.getYososuStation()
                     true
                 }
                 R.id.item_map_filter -> {
                     sharedPrefUtil.useFilterByHasStock = !sharedPrefUtil.useFilterByHasStock
                     binding.topAppBar.menu.findItem(R.id.item_map_filter)
                         .setIcon(if (sharedPrefUtil.useFilterByHasStock) R.drawable.ic_baseline_filter_list_24 else R.drawable.ic_baseline_filter_list_off_24)
-                    showToast(if (sharedPrefUtil.useFilterByHasStock) "요소수 없는곳 제외" else "전부 표시")
                     if (sharedPrefUtil.useFilterByHasStock) yososuStationAdapter.filterByHasYososu() else yososuStationAdapter.noFilter()
+                    mMap?.let {
+                        // 재 생성 비용문제로 좌표를 보이지 않는곳으로 이동처리
+                        //      - 20개보다 적은 데이터가 지도에 있을경우 필터를 하여도 기존 마커가 삭제되지 않는 현상에 대한 개선
+                        markers.forEach { marker ->
+                            marker.position = LatLng(0.0, 0.0)
+                        }
+                    }
+                    showToast(if (sharedPrefUtil.useFilterByHasStock) "요소수 없는곳 제외" else "전부 표시")
                     refreshMarkers()
                     true
                 }
                 R.id.item_yososu_list -> {
                     findNavController().navigate(
-                        YososuMapFragmentDirections.actionMapFragmentToHomeFragment()
+                        YososuMapFragmentDirections.actionMapFragmentToHomeFragment(
+                            viewModel.countStationColor()
+                        )
                     )
                     true
                 }
@@ -172,7 +178,6 @@ class YososuMapFragment :
 
         binding.btnYososuMapMyLocation.setOnClickListener {
             requestPermission()
-            mMap.locationTrackingMode = trackingMode
         }
 
     }
@@ -187,39 +192,54 @@ class YososuMapFragment :
             Timber.d(location.toString())
         }
 
-        viewModel.yososuStationList.observe(this@YososuMapFragment, EventObserver { yososuStationList ->
-            // View 에서 관리가능하도록 리스트 저장
-            viewList.addAll(yososuStationList)
-            yososuStationAdapter.submit(viewList)
-            makeMarkerWithFiltered(viewList)
-            markers.forEach { it.map = mMap }
-        })
-
-        viewModel.cannotGetLocation.observe(this@YososuMapFragment, EventObserver { noLocation ->
-            if (noLocation) {
-                showToast("위치 정보를 가져올수 없습니다.")
+        viewModel.yososuStationList.observe(
+            this@YososuMapFragment,
+            EventObserver { yososuStationList ->
+                Timber.tag("dksung").d("getYososuStation() done")
+                // View 에서 관리가능하도록 리스트 저장
+                viewYososuStationList.clear()
+                viewYososuStationList.addAll(yososuStationList)
+                yososuStationAdapter.submit(viewYososuStationList)
+                // 마커의 표시가 한쪽으로 치우쳐지지 않게 섞음
+                viewYososuStationList.shuffle()
+                refreshMarkers()
+                binding.progressBar.hide()
+                showToast("요소수 정보를 업데이트하였습니다.")
             }
-        })
+        )
     }
 
     override fun onMapReady(naverMap: NaverMap) {
         mMap = naverMap
-        viewModel.getYososuStation()
-        locationSource = FusedLocationSource(this, 1000)
-        mMap.locationSource = locationSource
-        mMap.locationTrackingMode = trackingMode
-        naverMap.addOnLocationChangeListener {
+        mMap!!.locationSource = FusedLocationSource(this, 1000)
+        mMap!!.locationTrackingMode =
+            if (mContext.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                LocationTrackingMode.Follow
+            } else {
+                LocationTrackingMode.None
+            }
+        mMap!!.addOnLocationChangeListener {
             viewModel.currentLocation(it)
         }
 
-        mMap.addOnCameraIdleListener {
-            markers.forEach { marker ->
-                marker.isVisible = mMap.contentBounds.contains(marker.position)
-            }
+        // 마커를 20 개만 고정적으로 생성 후 이후 해당 객체(마커)의 내용만 교체를 진행
+        (1..20).forEach { _ ->
+            markers.add(
+                Marker().apply {
+                    position = LatLng(0.0, 0.0)
+                    this.map = mMap!!
+                }
+            )
+        }
+
+        // 카메라가 멈췄을때
+        mMap!!.addOnCameraIdleListener {
+            // 마커를 재생성
+            refreshMarkers()
         }
     }
 
-    private fun moveToNaverMapMarker(latLng: LatLng) {
+    private fun moveCameraToLatLng(latLng: LatLng) {
         mMap?.let {
             it.moveCamera(
                 CameraUpdate
@@ -227,62 +247,82 @@ class YososuMapFragment :
                     .animate(CameraAnimation.Fly) // 이동 애니메이션 처리
                     .finishCallback {
                         // 13.5 로 줌
-                        mMap.moveCamera(CameraUpdate.zoomTo(14.0))
+                        mMap?.moveCamera(CameraUpdate.zoomTo(14.0))
                     }
             )
         }
     }
 
     private fun refreshMarkers() {
-        markers.forEach { it.map = null }
-        markers.clear()
-        makeMarkerWithFiltered(viewList)
-        markers.forEach { it.map = mMap }
-    }
+        // 요소수 없는곳 필터
+        val filteredYososuStationList =
+            if (sharedPrefUtil.useFilterByHasStock) viewYososuStationList.filter { it.stock != 0L } else viewYososuStationList
 
-    private fun makeMarkerWithFiltered(yososuList: List<YososuStation>) {
-        val filteredList =
-            if (sharedPrefUtil.useFilterByHasStock) yososuList.filter { it.stock != 0L } else yososuList
-        filteredList.forEach { yososuStation ->
-            markers.add(
-                // 마커 그리기 및 뷰 붙히기
-                Marker().apply {
+        // 사용자에게 표시되는 맵의 포함된 위치의 주유소만 마커로 표시하며 이는 최대 20개를 넘지 않음
+        var makeMarkerCount = 0
+        for (yososuStation in filteredYososuStationList) {
+            if (mMap!!.contentBounds.contains(LatLng(yososuStation.lat, yososuStation.lon))) {
+                markers[makeMarkerCount].apply {
+                    // 위치
                     position = LatLng(yososuStation.lat, yososuStation.lon)
+                    // 아이콘 (커스텀 사용)
                     icon = OverlayImage.fromView(
-                        (layoutInflater.inflate(
-                            R.layout.item_marker,
-                            null
-                        ) as ConstraintLayout).apply {
-                            (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).text =
-                                yososuStation.name
-                            (this.getViewById(R.id.tv_marker_stock) as TextView).text =
-                                "${getString(R.string.map_marker_stock)} : ${yososuStation.stock}"
-                            if(yososuStation.stock == 0L){
-                                (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setTextColor(0xFFFFFFFF.toInt())
-                                (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setBackgroundColor(0xFF000000.toInt())
-                            } else {
-                                (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setTextColor(0xFFFFFFFF.toInt())
-                                (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setBackgroundColor(0xFFFF6E40.toInt())
-                            }
-                            (this.getViewById(R.id.tv_marker_cost) as TextView).text =
-                                "${getString(R.string.map_marker_cost)} : ${yososuStation.cost}원"
-                            onClickListener = Overlay.OnClickListener {
-                                val latLng = LatLng(
-                                    yososuStation.lat,
-                                    yososuStation.lon
-                                )
-                                moveToNaverMapMarker(latLng)
-                                binding.recyclerviewYososuMapYososulist.scrollToPosition(
-                                    yososuStationAdapter.currentList.indexOf(yososuStation) ?: 0
-                                )
-                                true
-                            }
-                            isHideCollidedMarkers = true
-                        }
+                        makeCustomMarkerView(yososuStation)
                     )
+                    // 클릭하였을떄
+                    onClickListener = Overlay.OnClickListener {
+                        val latLng = LatLng(
+                            yososuStation.lat,
+                            yososuStation.lon
+                        )
+                        moveCameraToLatLng(latLng)
+                        binding.recyclerviewYososuMapYososulist.scrollToPosition(
+                            yososuStationAdapter.currentList.indexOf(yososuStation) ?: 0
+                        )
+                        true
+                    }
                 }
-            )
+                if (++makeMarkerCount == 20) { // 생성가능한 마커의 개수(20개) 만큼만 변경
+                    break
+                }
+            }
         }
     }
 
+    private fun makeCustomMarkerView(yososuStation: YososuStation) = (layoutInflater.inflate(
+        R.layout.item_marker,
+        null
+    ) as ConstraintLayout).apply {
+        (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).text =
+            yososuStation.name
+        (this.getViewById(R.id.tv_marker_stock) as TextView).text =
+            "${getString(R.string.map_marker_stock)} : ${yososuStation.stock}"
+        if (yososuStation.stock == 0L) {
+            (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setTextColor(0xFFFFFFFF.toInt())
+            (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setBackgroundColor(
+                0xFF000000.toInt()
+            )
+        } else {
+            (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setTextColor(0xFFFFFFFF.toInt())
+            (this.getViewById(R.id.tv_marker_gas_station_name) as TextView).setBackgroundColor(
+                0xFFFF6E40.toInt()
+            )
+        }
+        (this.getViewById(R.id.tv_marker_cost) as TextView).text =
+            if (yososuStation.cost == "undefined") "${getString(R.string.map_marker_cost)} : 미정" else "${
+                getString(
+                    R.string.map_marker_cost
+                )
+            } : ${yososuStation.cost}원"
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mMap?.let {
+            markers.forEach { marker ->
+                marker.map = null
+            }
+            markers.clear()
+        }
+    }
 }
