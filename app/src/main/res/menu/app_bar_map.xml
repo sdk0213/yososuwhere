@@ -8,4 +8,30 @@
         android:title="필터"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/item_refresh"
+        android:icon="@drawable/ic_baseline_refresh_24"
+        android:title="업데이트"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/item_yososu_list"
+        android:icon="@drawable/ic_outline_view_list_24"
+        android:title="지도"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/item_qna"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:iconTint="@color/turtle_main"
+        android:title="문의하기"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/item_open_source_license"
+        android:icon="@drawable/ic_baseline_source_24"
+        android:iconTint="@color/turtle_main"
+        android:title="오픈소스 라이선스"
+        app:showAsAction="never" />
+
 </menu>

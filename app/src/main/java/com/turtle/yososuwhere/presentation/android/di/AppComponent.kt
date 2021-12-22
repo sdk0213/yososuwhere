@@ -15,6 +15,7 @@ import javax.inject.Singleton
         AppModule::class,
         NetModule::class,
         RepositoryModule::class,
+        RemoteDataModule::class,
         UseCaseModule::class,
         UtilModule::class
     ]

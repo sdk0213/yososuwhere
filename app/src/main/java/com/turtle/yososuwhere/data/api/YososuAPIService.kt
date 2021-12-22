@@ -14,7 +14,7 @@ interface YososuAPIService {
     @GET("inventory?")
     fun getYososuStationList(
         @Query("page") page: Int = 1,
-        @Query("perPage") perPage: Int = 1000,
+        @Query("perPage") perPage: Int = 15000,
         @Query("serviceKey") serviceKey: String = URLDecoder.decode(
             ApiClient.YOSOSU_API_KEY,
             "UTF-8"

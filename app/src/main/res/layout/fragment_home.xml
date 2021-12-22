@@ -27,137 +27,100 @@
             app:menu="@menu/app_bar_home"
             app:title="요소수 어디" />
 
-        <ImageView
-            android:id="@+id/image_view_home_gps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:src="@drawable/ic_baseline_gps_fixed_24"
+        <View
+            android:id="@+id/view_home_yososu_stock_color_green"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_margin="10dp"
+            android:background="#63FF00"
+            app:layout_constraintEnd_toStartOf="@+id/tv_home_has_stock_color_green"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/topAppBar" />
 
         <TextView
-            android:id="@+id/tv_home_gps"
+            android:id="@+id/tv_home_has_stock_color_green"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="10dp"
-            android:text="@{viewModel.currentLocation.address}"
-            app:layout_constraintBottom_toBottomOf="@+id/image_view_home_gps"
-            app:layout_constraintEnd_toStartOf="@+id/view_home_yososu_stock_color_green"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toEndOf="@+id/image_view_home_gps"
-            app:layout_constraintTop_toTopOf="@+id/image_view_home_gps"
-            app:layout_constraintVertical_bias="0"
-            tools:text="충북 영동군 추풍령면 계룡리 86-33 2206 가가나나나동 다다라라리 마마바바읍 " />
-
-        <View
-            android:id="@+id/view_home_yososu_stock_color_green"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginEnd="5dp"
-            android:background="#63FF00"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_home_has_stock_color_green"
-            app:layout_constraintEnd_toStartOf="@+id/tv_home_has_stock_color_green"
-            app:layout_constraintTop_toTopOf="@+id/tv_home_has_stock_color_green" />
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view_home_yososu_stock_color_green"
+            app:layout_constraintEnd_toStartOf="@+id/view_home_yososu_stock_color_yellow"
+            app:layout_constraintStart_toEndOf="@+id/view_home_yososu_stock_color_green"
+            app:layout_constraintTop_toTopOf="@+id/view_home_yososu_stock_color_green"
+            tools:text="122" />
 
         <View
             android:id="@+id/view_home_yososu_stock_color_yellow"
-            android:layout_width="10dp"
+            android:layout_width="0dp"
             android:layout_height="10dp"
-            android:layout_marginEnd="5dp"
+            android:layout_margin="10dp"
             android:background="#FFD600"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_home_has_stock_color_yellow"
             app:layout_constraintEnd_toStartOf="@+id/tv_home_has_stock_color_yellow"
-            app:layout_constraintTop_toTopOf="@+id/tv_home_has_stock_color_yellow" />
-
-        <View
-            android:id="@+id/view_home_yososu_stock_color_red"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginEnd="5dp"
-            android:background="#FF0000"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_home_has_stock_color_red"
-            app:layout_constraintEnd_toStartOf="@+id/tv_home_has_stock_color_red"
-            app:layout_constraintTop_toTopOf="@+id/tv_home_has_stock_color_red" />
-
-        <View
-            android:id="@+id/view_home_yososu_stock_color_gray"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginEnd="5dp"
-            android:background="#888888"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_home_has_stock_color_gray"
-            app:layout_constraintEnd_toStartOf="@+id/tv_home_has_stock_color_gray"
-            app:layout_constraintTop_toTopOf="@+id/tv_home_has_stock_color_gray" />
-
-        <TextView
-            android:id="@+id/tv_home_has_stock_color_green"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topAppBar"
-            tools:text="31" />
+            app:layout_constraintStart_toEndOf="@+id/tv_home_has_stock_color_green"
+            app:layout_constraintTop_toBottomOf="@+id/topAppBar" />
 
         <TextView
             android:id="@+id/tv_home_has_stock_color_yellow"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/tv_home_has_stock_color_green"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_has_stock_color_green"
-            tools:text="5" />
+            app:layout_constraintBottom_toBottomOf="@+id/view_home_yososu_stock_color_yellow"
+            app:layout_constraintEnd_toStartOf="@+id/view_home_yososu_stock_color_red"
+            app:layout_constraintStart_toEndOf="@+id/view_home_yososu_stock_color_yellow"
+            app:layout_constraintTop_toTopOf="@+id/view_home_yososu_stock_color_yellow"
+            tools:text="35" />
+
+        <View
+            android:id="@+id/view_home_yososu_stock_color_red"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_margin="10dp"
+            android:background="#FF0000"
+            app:layout_constraintEnd_toStartOf="@+id/tv_home_has_stock_color_red"
+            app:layout_constraintStart_toEndOf="@+id/tv_home_has_stock_color_yellow"
+            app:layout_constraintTop_toBottomOf="@+id/topAppBar" />
 
         <TextView
             android:id="@+id/tv_home_has_stock_color_red"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/tv_home_has_stock_color_green"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_has_stock_color_yellow"
+            app:layout_constraintBottom_toBottomOf="@+id/view_home_yososu_stock_color_red"
+            app:layout_constraintEnd_toStartOf="@+id/view_home_yososu_stock_color_gray"
+            app:layout_constraintStart_toEndOf="@+id/view_home_yososu_stock_color_red"
+            app:layout_constraintTop_toTopOf="@+id/view_home_yososu_stock_color_red"
             tools:text="111" />
+
+        <View
+            android:id="@+id/view_home_yososu_stock_color_gray"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_margin="10dp"
+            android:background="#888888"
+            app:layout_constraintEnd_toStartOf="@+id/tv_home_has_stock_color_gray"
+            app:layout_constraintStart_toEndOf="@+id/tv_home_has_stock_color_red"
+            app:layout_constraintTop_toBottomOf="@+id/topAppBar" />
 
         <TextView
             android:id="@+id/tv_home_has_stock_color_gray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/tv_home_has_stock_color_green"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_has_stock_color_red"
-            tools:text="87" />
-
-        <TextView
-            android:id="@+id/tv_home_refresh"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:gravity="start"
-            android:text="현재 위치에서 가장 가깝거나 재고가 많은 순으로 정렬됩니다."
-            android:textColor="@color/turtle_main"
-            app:layout_constraintEnd_toStartOf="@+id/view_home_yososu_stock_color_gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_gps" />
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view_home_yososu_stock_color_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view_home_yososu_stock_color_gray"
+            app:layout_constraintTop_toTopOf="@+id/view_home_yososu_stock_color_gray"
+            tools:text="687" />
 
         <View
             android:id="@+id/view_1"
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_margin="10dp"
             android:background="@color/turtle_main"
             app:layout_constraintBottom_toTopOf="@+id/recyclerview_home_yososulist"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_home_refresh" />
+            app:layout_constraintTop_toBottomOf="@+id/view_home_yososu_stock_color_green" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_home_yososulist"

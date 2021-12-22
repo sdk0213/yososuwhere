@@ -5,6 +5,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.turtle.yososuwhere.data.api.YososuAPIService
 import com.turtle.yososuwhere.data.repository.location.LocationRepositoryImpl
+import com.turtle.yososuwhere.data.repository.yososu.YososuRemoteDataSource
 import com.turtle.yososuwhere.data.repository.yososu.YososuRepositoryImpl
 import com.turtle.yososuwhere.domain.repository.LocationRepository
 import com.turtle.yososuwhere.domain.repository.YososuRepository
@@ -18,9 +19,10 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideYososuRepositoryImpl(
+        remoteDataSource: YososuRemoteDataSource,
         apiService: YososuAPIService
     ): YososuRepository {
-        return YososuRepositoryImpl(apiService)
+        return YososuRepositoryImpl(remoteDataSource, apiService)
     }
 
     @Provides

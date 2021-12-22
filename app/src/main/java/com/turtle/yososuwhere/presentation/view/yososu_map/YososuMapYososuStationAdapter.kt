@@ -1,12 +1,14 @@
 package com.turtle.yososuwhere.presentation.view.yososu_map
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.naver.maps.geometry.LatLng
@@ -21,10 +23,10 @@ import java.util.*
 
 class MapYososuStationAdapter constructor(
     private val mContext: Context,
-    private val clipboardSave: (YososuStation) -> (Unit),
+    private val moveToMarker: (YososuStation) -> (Unit),
     private val sharedPrefUtil: SharedPrefUtil
 ) : ListAdapter<YososuStation, MapYososuStationAdapter.HomeYososuStationViewHolder>(
-    MapYososuStationDiffCallback()
+    YososuStationDiffCallback()
 ) {
 
     private var modelDataList = mutableListOf<YososuStation>()
@@ -125,7 +127,12 @@ class MapYososuStationAdapter constructor(
                 }
 
                 cardViewListHome.setOnClickListener {
-                    clipboardSave(item)
+                    val clipboard: ClipboardManager =
+                        mContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("", item.addr)
+                    clipboard.setPrimaryClip(clip)
+                    Toast.makeText(mContext, "주유소 주소를 복사하였습니다.", Toast.LENGTH_SHORT).show()
+                    moveToMarker(item)
                 }
 
                 executePendingBindings()
@@ -134,15 +141,4 @@ class MapYososuStationAdapter constructor(
 
     }
 
-}
-
-class MapYososuStationDiffCallback : DiffUtil.ItemCallback<YososuStation>() {
-
-    override fun areItemsTheSame(oldItem: YososuStation, newItem: YososuStation): Boolean {
-        return oldItem.code == newItem.code
-    }
-
-    override fun areContentsTheSame(oldItem: YososuStation, newItem: YososuStation): Boolean {
-        return oldItem.code == newItem.code
-    }
 }

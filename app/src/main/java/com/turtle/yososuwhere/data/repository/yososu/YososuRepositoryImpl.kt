@@ -1,14 +1,33 @@
 package com.turtle.yososuwhere.data.repository.yososu
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.rxjava2.flowable
 import com.turtle.yososuwhere.data.api.YososuAPIService
 import com.turtle.yososuwhere.domain.model.YososuStation
 import com.turtle.yososuwhere.domain.repository.YososuRepository
+import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
 
 class YososuRepositoryImpl @Inject constructor(
-    private val apiService: YososuAPIService,
+    private val remoteDataSource: YososuRemoteDataSource,
+    private val apiService: YososuAPIService
 ) : YososuRepository {
+
+    override fun getGasStationListHasYososuByPaging(): Flowable<PagingData<YososuStation>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                maxSize = 20,
+                initialLoadSize = 10,
+                prefetchDistance = 1,
+                enablePlaceholders = true,
+            ),
+            pagingSourceFactory = { remoteDataSource }
+        ).flowable
+    }
 
     override fun getGasStationListHasYososu(): Single<List<YososuStation>> {
         return apiService.getYososuStationList()
