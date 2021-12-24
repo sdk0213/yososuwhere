@@ -29,6 +29,10 @@ class YososuMapFragment :
     BaseFragment<YososuMapViewModel, FragmentYososuMapBinding>(R.layout.fragment_yososu_map),
     OnMapReadyCallback {
 
+    companion object {
+        private const val LOADING_MAX = 100
+    }
+
     @Inject
     lateinit var sharedPrefUtil: SharedPrefUtil
 
@@ -125,8 +129,15 @@ class YososuMapFragment :
     private fun listener() {
 
         binding.topAppBar.setOnMenuItemClickListener {
+            if (binding.progressBar.isShown) {
+                showToast(getString(R.string.map_toast_message_is_loading))
+                return@setOnMenuItemClickListener false
+            }
             when (it.itemId) {
                 R.id.item_refresh -> {
+                    viewYososuStationList.clear()
+                    binding.progressBar.show()
+                    binding.progressBar.progress = 0
                     viewModel.getYososuStation()
                     true
                 }
@@ -185,6 +196,8 @@ class YososuMapFragment :
     private fun observer() {
 
         viewModel.errorMessage.observe(this@YososuMapFragment, EventObserver {
+            binding.progressBar.progress = 0
+            binding.progressBar.hide()
             showToast(it)
         })
 
@@ -195,16 +208,21 @@ class YososuMapFragment :
         viewModel.yososuStationList.observe(
             this@YososuMapFragment,
             EventObserver { yososuStationList ->
-                Timber.tag("dksung").d("getYososuStation() done")
                 // View 에서 관리가능하도록 리스트 저장
-                viewYososuStationList.clear()
                 viewYososuStationList.addAll(yososuStationList)
                 yososuStationAdapter.submit(viewYososuStationList)
-                // 마커의 표시가 한쪽으로 치우쳐지지 않게 섞음
-                viewYososuStationList.shuffle()
-                refreshMarkers()
-                binding.progressBar.hide()
-                showToast("요소수 정보를 업데이트하였습니다.")
+            }
+        )
+
+        viewModel.loadingPercent.observe(
+            this@YososuMapFragment,
+            EventObserver { percent ->
+                binding.progressBar.progress = percent
+                if (percent == LOADING_MAX) {
+                    binding.progressBar.hide()
+                    refreshMarkers()
+                    showToast("요소수 정보를 업데이트하였습니다.")
+                }
             }
         )
     }

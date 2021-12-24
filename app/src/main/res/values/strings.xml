@@ -14,4 +14,5 @@
     <!-- 맵 -->
     <string name="map_marker_stock">cost</string>
     <string name="map_marker_cost">stock</string>
+    <string name="map_toast_message_is_loading">주유소 정보를 가지고있는 중입니다.\n잠시 후에 다시 시도해주세요.</string>
 </resources>
