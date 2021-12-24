@@ -16,7 +16,7 @@
 ### v1.0
 <img src = "https://user-images.githubusercontent.com/51182964/143018335-07516977-ebcd-484c-9ed6-58b89cdf17f8.png" width="20%" height="20%">  <img src = "https://user-images.githubusercontent.com/51182964/143018401-f566df54-b87f-41b4-ad9d-c933ca06bfee.png" width="20%" height="20%">  <img src = "https://user-images.githubusercontent.com/51182964/143018413-4305ef29-13e0-4a01-b041-aa2974f34fd4.png" width="20%" height="20%">  <img src = "https://user-images.githubusercontent.com/51182964/143018424-cc190b42-73e2-4604-ad8c-be985e7bcb41.png" width="20%" height="20%">
 ---
-### v1.1
+### v1.0.0.1
 * [공공데이터활용지원센터_요소수 중점 유통 주유소 재고현황] API 폐기 --> 환경부_요소수 중점 유통 주유소 재고현황 조회서비스 API 로 변경에 따른 앱 수정 필요
 * 요소수 데이터 모델 변경 및 요소수 정보 추가
   * 가격
@@ -29,7 +29,16 @@
 
 
 ---
-### v1.2
+### v1.0.0.2
 * 네이버 지도로 요소수 보기 / 필터링
 
 <img src = "https://user-images.githubusercontent.com/51182964/144257135-d2fde504-ea22-45e1-bf0a-dab8163b9b50.png" width="20%" height="20%"> <img src = "https://user-images.githubusercontent.com/51182964/144257157-8158954c-2bc1-4c8e-b499-f4f05b9be9d8.png" width="20%" height="20%"> <img src = "https://user-images.githubusercontent.com/51182964/144257159-c5d5625e-4509-4d28-9102-4e2d1132bd11.png" width="20%" height="20%">
+
+---
+### v1.0.0.5
+* 데이터가 늘어남(주유소 정보 100 -> 최대 10000개 까지 늘어날것으로 예상) 에 따라서 데이터 표시 처리 로직 변경
+  * 맵에 표시되는 마커 20 개로 제한
+  * 맵에 표시하지 않아도 되는 마커는 제거
+  * API 요청시 400개 씩 나누어서 받아오기
+  * 요소수 리스트 페이징 적용
+  * 요소수 맵을 메인 화면으로 변경
